@@ -52,7 +52,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         // Issue options
         
         /*$mform->addElement('header', 'issueoptions', get_string('issueoptions', 'certificate'));
-        $ynoptions = array( 0 => get_string('no'), 1 => get_string('yes'));
+        $ynoptions = array( 0 => get_string('no'), 1 => get_s('yes'));
         $mform->addElement('select', 'emailteachers', get_string('emailteachers', 'certificate'), $ynoptions);
         $mform->setDefault('emailteachers', 0);
         $mform->addHelpButton('emailteachers', 'emailteachers', 'certificate');
@@ -78,9 +78,10 @@ class mod_certificate_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('text', 'requiredtime', get_string('coursetimereq', 'certificate'), array('size'=>'3'));
+        $mform->setDefault('requiredtime', 0);
         $mform->setType('requiredtime', PARAM_INT);
         $mform->addHelpButton('requiredtime', 'coursetimereq', 'certificate');
-
+        
         // Text Options
         $mform->addElement('header', 'textoptions', get_string('textoptions', 'certificate'));
 
@@ -160,7 +161,8 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('select', 'printseal', get_string('printseal', 'certificate'), certificate_get_images(CERT_IMAGE_SEAL));
         $mform->setDefault('printseal', '0');
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
-*/
+        */
+
         $mform->addElement('text', 'timestartcourse', 'Tiempo Inicial', array('size'=>'10', 'maxlength' => '255'));
         $mform->setType('timestartcourse', PARAM_TEXT);
         
@@ -183,6 +185,7 @@ class mod_certificate_mod_form extends moodleform_mod {
      * @param $files
      * @return array
      */
+    /*
     public function validation($data, $files) {
         $errors = parent::validation($data, $files);
 
@@ -193,4 +196,5 @@ class mod_certificate_mod_form extends moodleform_mod {
 
         return $errors;
     }
+    */
 }
