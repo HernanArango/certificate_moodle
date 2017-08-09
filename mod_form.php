@@ -161,6 +161,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('select', 'printseal', get_string('printseal', 'certificate'), certificate_get_images(CERT_IMAGE_SEAL));
         $mform->setDefault('printseal', '0');
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
+<<<<<<< HEAD
         */
 
         $mform->addElement('text', 'timestartcourse', 'Tiempo Inicial', array('size'=>'10', 'maxlength' => '255'));
@@ -169,9 +170,16 @@ class mod_certificate_mod_form extends moodleform_mod {
 
         $mform->addElement('text', 'timefinalcourse', 'Tiempo Final', array('size'=>'10', 'maxlength' => '255'));
         $mform->setType('timefinalcourse', PARAM_TEXT);
+=======
+*/
+ 
+>>>>>>> ef7a0c3ae7922cef44581dc649a6aac4a6682225
 
         $mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'10', 'maxlength' => '255'));
         $mform->setType('timefinalcourse', PARAM_TEXT);
+
+        $mform->addElement('date_selector', 'timestartcourse', 'Fecha Inicial');
+        $mform->addElement('date_selector', 'timefinalcourse', 'Fecha Final');
 
         $this->standard_coursemodule_elements();
 
@@ -185,8 +193,12 @@ class mod_certificate_mod_form extends moodleform_mod {
      * @param $files
      * @return array
      */
+<<<<<<< HEAD
     /*
     public function validation($data, $files) {
+=======
+    /*public function validation($data, $files) {
+>>>>>>> ef7a0c3ae7922cef44581dc649a6aac4a6682225
         $errors = parent::validation($data, $files);
 
         // Check that the required time entered is valid
@@ -195,6 +207,10 @@ class mod_certificate_mod_form extends moodleform_mod {
         }
 
         return $errors;
+<<<<<<< HEAD
     }
     */
+=======
+    }*/
+>>>>>>> ef7a0c3ae7922cef44581dc649a6aac4a6682225
 }
