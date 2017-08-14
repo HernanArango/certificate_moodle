@@ -46,8 +46,8 @@ if ($certificate->orientation == 'L') {
     $custx = 47;
     $custy = 155;
     $wmarkx = 135;
-    $wmarky = 10;
-    $wmarkw = 25;
+    $wmarky = 20;
+    $wmarkw = 18;
     $wmarkh = 25;
     $brdrx = 0;
     $brdry = 0;
@@ -87,19 +87,26 @@ certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wmar
 //$pdf->SetAlpha(1);
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
+certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 
 // Add text
-$pdf->SetTextColor(0, 0, 120);
-//certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, get_string('title', 'certificate'));
-certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
 $pdf->SetTextColor(0, 0, 0);
-certificate_print_text($pdf, $x, $y + 20, 'C', $fontserif, '', 20, get_string('certify', 'certificate'));
-certificate_print_text($pdf, $x, $y + 36, 'C', $fontsans, '', 30, fullname($USER));
-certificate_print_text($pdf, $x, $y + 55, 'C', $fontsans, '', 20, get_string('statement', 'certificate'));
-certificate_print_text($pdf, $x, $y + 72, 'C', $fontsans, '', 20, format_string($course->fullname));
-certificate_print_text($pdf, $x, $y + 92, 'C', $fontsans, '', 14,  certificate_get_date($certificate, $certrecord, $course));
-certificate_print_text($pdf, $x, $y + 102, 'C', $fontserif, '', 10, certificate_get_grade($certificate, $course));
-certificate_print_text($pdf, $x, $y + 112, 'C', $fontserif, '', 10, certificate_get_outcome($certificate, $course));
+//certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, get_string('title', 'certificate'));
+certificate_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
+//certificate_print_text($pdf, $x, $y + 30, 'C', $fontsans, 'B', 20, get_string('certify', 'certificate'));
+certificate_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica que:");
+certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, fullname($USER));
+
+certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
+
+certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, '', 20, get_string('statement', 'certificate'));
+certificate_print_text($pdf, $x, $y + 85, 'C', $fontsans, '', 20, format_string($course->fullname));
+certificate_print_text($pdf, $x, $y + 100, 'C', $fontsans, 'B', 17,"Con una intensidad de ".format_string($certificate->printhours)." horas");
+/*
+certificate_print_text($pdf, $x, $y + 110, 'C', $fontsans, '', 14,  certificate_get_date($certificate, $certrecord, $course));
+certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_grade($certificate, $course));
+certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_outcome($certificate, $course));
+*/
 certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 certificate_print_text($pdf, 5, 200, 'R', $fontserif, '', 10, "Director Dintev");
 
