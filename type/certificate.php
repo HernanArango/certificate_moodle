@@ -41,8 +41,8 @@ if ($certificate->orientation == 'L') {
     $y = 30;
     $sealx = 230;
     $sealy = 150;
-    $sigx = 47;
-    $sigy = 155;
+    $sigx = 50;
+    $sigy = 175;
     $custx = 47;
     $custy = 155;
     $wmarkx = 135;
@@ -87,6 +87,7 @@ certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wmar
 //$pdf->SetAlpha(1);
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
+certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, 200, $sigy, '', '');
 certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 
 // Add text
@@ -99,20 +100,23 @@ certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, fullname($USE
 
 certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
 
-certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, '', 20, get_string('statement', 'certificate'));
-certificate_print_text($pdf, $x, $y + 85, 'C', $fontsans, '', 20, format_string($course->fullname));
-certificate_print_text($pdf, $x, $y + 100, 'C', $fontsans, 'B', 17,"Con una intensidad de ".format_string($certificate->printhours)." horas");
+certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificate'));
+certificate_print_text($pdf, $x, $y + 90, 'C', $fontsans, 'B', 20, format_string($course->fullname));
+certificate_print_text($pdf, $x, $y + 115, 'C', $fontsans, 'B', 17,"con una intensidad de ".format_string($certificate->printhours)." horas");
+certificate_print_text($pdf, $x, $y + 125, 'C', $fontsans, 'B', 12,"Santiago de Cali");
 /*
 certificate_print_text($pdf, $x, $y + 110, 'C', $fontsans, '', 14,  certificate_get_date($certificate, $certrecord, $course));
 certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_grade($certificate, $course));
 certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_outcome($certificate, $course));
-*/
-certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
-certificate_print_text($pdf, 5, 200, 'R', $fontserif, '', 10, "Director Dintev");
 
 if ($certificate->printhours) {
     certificate_print_text($pdf, $x, $y + 122, 'C', $fontserif, '', 10, get_string('credithours', 'certificate') . ': ' . $certificate->printhours);
 }
+*/
+certificate_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
+certificate_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, "Director Dintev");
+
+
 certificate_print_text($pdf, $x, $codey, 'C', $fontserif, '', 10, certificate_get_code($certificate, $certrecord));
 $i = 0;
 if ($certificate->printteacher) {
