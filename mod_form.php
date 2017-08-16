@@ -163,7 +163,7 @@ class mod_certificate_mod_form extends moodleform_mod {
 */
  
 
-        $mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'10', 'maxlength' => '255'));
+        $mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
         $mform->setType('timefinalcourse', PARAM_TEXT);
 
         $mform->addElement('date_selector', 'timestartcourse', 'Fecha Inicial');
