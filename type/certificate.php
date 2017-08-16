@@ -89,9 +89,10 @@ certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '',
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, 200, $sigy, '', '');
 certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
-
+   
 // Add text
 $pdf->SetTextColor(0, 0, 0);
+$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=SoyUnDios&.png',140,170,20);
 //certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, get_string('title', 'certificate'));
 certificate_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
 //certificate_print_text($pdf, $x, $y + 30, 'C', $fontsans, 'B', 20, get_string('certify', 'certificate'));
@@ -103,7 +104,8 @@ certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".d
 certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificate'));
 certificate_print_text($pdf, $x, $y + 90, 'C', $fontsans, 'B', 20, format_string($course->fullname));
 certificate_print_text($pdf, $x, $y + 115, 'C', $fontsans, 'B', 17,"con una intensidad de ".format_string($certificate->printhours)." horas");
-certificate_print_text($pdf, $x, $y + 125, 'C', $fontsans, 'B', 12,"Santiago de Cali");
+certificate_print_text($pdf, $x, $y + 125, 'C', $fontsans, 'B', 12,"Santiago de Cali - Colombia");
+
 /*
 certificate_print_text($pdf, $x, $y + 110, 'C', $fontsans, '', 14,  certificate_get_date($certificate, $certrecord, $course));
 certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_grade($certificate, $course));
