@@ -52,7 +52,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         // Issue options
         
         /*$mform->addElement('header', 'issueoptions', get_string('issueoptions', 'certificate'));
-        $ynoptions = array( 0 => get_string('no'), 1 => get_string('yes'));
+        $ynoptions = array( 0 => get_string('no'), 1 => get_s('yes'));
         $mform->addElement('select', 'emailteachers', get_string('emailteachers', 'certificate'), $ynoptions);
         $mform->setDefault('emailteachers', 0);
         $mform->addHelpButton('emailteachers', 'emailteachers', 'certificate');
@@ -78,9 +78,10 @@ class mod_certificate_mod_form extends moodleform_mod {
         }
 
         $mform->addElement('text', 'requiredtime', get_string('coursetimereq', 'certificate'), array('size'=>'3'));
+        $mform->setDefault('requiredtime', 0);
         $mform->setType('requiredtime', PARAM_INT);
         $mform->addHelpButton('requiredtime', 'coursetimereq', 'certificate');
-
+        
         // Text Options
         $mform->addElement('header', 'textoptions', get_string('textoptions', 'certificate'));
 
@@ -133,7 +134,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('select', 'certificatetype', get_string('certificatetype', 'certificate'), certificate_types());
         $mform->setDefault('certificatetype', 'A4_non_embedded');
         $mform->addHelpButton('certificatetype', 'certificatetype', 'certificate');
-
+        
         $orientation = array( 'L' => get_string('landscape', 'certificate'), 'P' => get_string('portrait', 'certificate'));
         $mform->addElement('select', 'orientation', get_string('orientation', 'certificate'), $orientation);
         $mform->setDefault('orientation', 'L');
@@ -161,9 +162,34 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->setDefault('printseal', '0');
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
 */
- 
+        
+        $mform->addElement('text', 'orientation', get_string('orientation', 'certificate'));
+        $mform->setType('orientation', PARAM_TEXT);
+        $mform->setDefault('orientation', 'L');
+
+        $mform->addElement('text', 'printwmark', get_string('printwmark', 'certificate'));
+        $mform->setType('printwmark', PARAM_TEXT);
+        $mform->setDefault('printwmark', 'logo_univalle.png');
+        
+
+        $mform->addElement('text', 'borderstyle', get_string('borderstyle', 'certificate'));
+        $mform->setType('borderstyle', PARAM_TEXT);
+        $mform->setDefault('borderstyle', 'BackgroundUV.png');
+
+        $mform->addElement('text', 'printsignature', get_string('printsignature', 'certificate'));
+        $mform->setType('printsignature', PARAM_TEXT);
+        $mform->setDefault('printsignature', 'Line.png');
+        
+
+        $mform->addElement('text', 'printhours', get_string('printhours', 'certificate'), array('size'=>'5', 'maxlength' => '255'));
+        $mform->setType('printhours', PARAM_TEXT);
+        $mform->addHelpButton('printhours', 'printhours', 'certificate');
+        
+        
+
 
         $mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
+
         $mform->setType('timefinalcourse', PARAM_TEXT);
 
         $mform->addElement('date_selector', 'timestartcourse', 'Fecha Inicial');
@@ -181,7 +207,9 @@ class mod_certificate_mod_form extends moodleform_mod {
      * @param $files
      * @return array
      */
-    /*public function validation($data, $files) {
+/*
+    public function validation($data, $files) {
+
         $errors = parent::validation($data, $files);
 
         // Check that the required time entered is valid
@@ -190,5 +218,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         }
 
         return $errors;
-    }*/
+
+    }
+    */
 }
