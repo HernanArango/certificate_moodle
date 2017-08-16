@@ -163,20 +163,20 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
 */
         
-        $mform->addElement('text', 'orientation', get_string('orientation', 'certificate'));
+        $mform->addElement('hidden', 'orientation', get_string('orientation', 'certificate'));
         $mform->setType('orientation', PARAM_TEXT);
         $mform->setDefault('orientation', 'L');
 
-        $mform->addElement('text', 'printwmark', get_string('printwmark', 'certificate'));
+        $mform->addElement('hidden', 'printwmark', get_string('printwmark', 'certificate'));
         $mform->setType('printwmark', PARAM_TEXT);
         $mform->setDefault('printwmark', 'logo_univalle.png');
         
 
-        $mform->addElement('text', 'borderstyle', get_string('borderstyle', 'certificate'));
+        $mform->addElement('hidden', 'borderstyle', get_string('borderstyle', 'certificate'));
         $mform->setType('borderstyle', PARAM_TEXT);
         $mform->setDefault('borderstyle', 'BackgroundUV.png');
 
-        $mform->addElement('text', 'printsignature', get_string('printsignature', 'certificate'));
+        $mform->addElement('hidden', 'printsignature', get_string('printsignature', 'certificate'));
         $mform->setType('printsignature', PARAM_TEXT);
         $mform->setDefault('printsignature', 'Line.png');
         
