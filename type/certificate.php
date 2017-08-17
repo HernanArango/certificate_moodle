@@ -92,12 +92,12 @@ certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($cer
    
 // Add text
 $pdf->SetTextColor(0, 0, 0);
-$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=SoyUnDios&.png',140,170,20);
+$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);
 //certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, get_string('title', 'certificate'));
 certificate_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
 //certificate_print_text($pdf, $x, $y + 30, 'C', $fontsans, 'B', 20, get_string('certify', 'certificate'));
 certificate_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica que:");
-certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, fullname($USER));
+certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
 
 certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
 
