@@ -86,9 +86,11 @@ certificate_draw_frame($pdf, $certificate);
 certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wmarky, $wmarkw, $wmarkh);
 //$pdf->SetAlpha(1);
 certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
-certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
-certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, 200, $sigy, '', '');
+//certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
+//certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, 200, $sigy, '', '');
 certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
+
+
    
 // Add text
 $pdf->SetTextColor(0, 0, 0);
@@ -100,6 +102,7 @@ certificate_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica qu
 certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
 
 certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
+
 
 certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificate'));
 certificate_print_text($pdf, $x, $y + 90, 'C', $fontsans, 'B', 20, format_string($course->fullname));
@@ -115,9 +118,18 @@ if ($certificate->printhours) {
     certificate_print_text($pdf, $x, $y + 122, 'C', $fontserif, '', 10, get_string('credithours', 'certificate') . ': ' . $certificate->printhours);
 }
 */
-certificate_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
-certificate_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, "Director Dintev");
+//Buscando Firmas
+//Firma Tutor
+$path_tutor="$CFG->dirroot/mod/certificate/pix/signatures/".$certificate->idteacher.".png";
+$pdf->Image($path_tutor,$sigx,$sigy-5,50);
+//Firma Director
+$path_director="$CFG->dirroot/mod/certificate/pix/signatures/directora.png";
+$pdf->Image($path_director,200,$sigy-5,50);
 
+
+certificate_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, certificate_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
+
+certificate_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
 
 certificate_print_text($pdf, $x, $codey, 'C', $fontserif, '', 10, certificate_get_code($certificate, $certrecord));
 $i = 0;

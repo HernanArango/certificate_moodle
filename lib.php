@@ -23,6 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once($CFG->dirroot.'/lib/moodlelib.php');
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -338,4 +339,58 @@ function certificate_get_view_actions() {
  */
 function certificate_get_post_actions() {
     return array('received');
+}
+
+
+/**
+*Usada para traer el nombre del profesor(tutor) que va a firmar
+*/
+function certificate_get_teacher_signature($id_user) {
+    global $DB;
+    $result=$DB->get_records_sql("SELECT mdl_user.id,
+        mdl_user.firstname,
+        mdl_user.lastname
+        FROM
+        public.mdl_user
+        WHERE
+        public.mdl_user.id=".$id_user.";");
+
+    foreach ($result as $key => $obj) {
+        $name = $obj->firstname." ".$obj->lastname;
+    }
+    return $name;
+
+}
+
+
+/**
+*Usada para obtener los profesores pertenecientes a un curo
+*/
+function certificate_get_teachers_course($id_course) {
+    global $DB;
+
+    $result=$DB->get_records_sql("SELECT mdl_user.id,
+        mdl_user.email,
+        mdl_user.username,
+        mdl_user.firstname,
+        mdl_user.lastname,
+        mdl_role_assignments.roleid,
+        mdl_course.fullname,
+        mdl_course.idnumber,
+        to_timestamp(mdl_course.timecreated)
+        FROM
+        public.mdl_user
+        INNER JOIN public.mdl_role_assignments ON public.mdl_role_assignments.userid = public.mdl_user.id
+        INNER JOIN public.mdl_context ON public.mdl_context.id = public.mdl_role_assignments.contextid
+        INNER JOIN public.mdl_course ON public.mdl_context.instanceid = public.mdl_course.id
+        WHERE
+        public.mdl_course.id=".$id_course." and
+        public.mdl_role_assignments.roleid =3;");
+        $teachers=array();
+        foreach ($result as $key => $obj) {
+        $teachers[$obj->id] = $obj->firstname." ".$obj->lastname;
+    }
+
+    return $teachers;
+
 }

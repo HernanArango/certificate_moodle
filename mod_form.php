@@ -29,7 +29,7 @@ if (!defined('MOODLE_INTERNAL')) {
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 require_once($CFG->dirroot.'/mod/certificate/locallib.php');
-require_once($CFG->dirroot.'/lib/moodlelib.php');
+
 
 class mod_certificate_mod_form extends moodleform_mod {
 
@@ -51,31 +51,7 @@ class mod_certificate_mod_form extends moodleform_mod {
 
         $this->standard_intro_elements(get_string('intro', 'certificate'));
 
-        //Profesores del curso
-        $course = required_param('course', PARAM_INT);
-        $result=$DB->get_records_sql("SELECT mdl_user.id,
-        mdl_user.email,
-        mdl_user.username,
-        mdl_user.firstname,
-        mdl_user.lastname,
-        mdl_role_assignments.roleid,
-        mdl_course.fullname,
-        mdl_course.idnumber,
-        to_timestamp(mdl_course.timecreated)
-        FROM
-        public.mdl_user
-        INNER JOIN public.mdl_role_assignments ON public.mdl_role_assignments.userid = public.mdl_user.id
-        INNER JOIN public.mdl_context ON public.mdl_context.id = public.mdl_role_assignments.contextid
-        INNER JOIN public.mdl_course ON public.mdl_context.instanceid = public.mdl_course.id
-        WHERE
-        public.mdl_course.id=".$course." and
-        public.mdl_role_assignments.roleid =3;");
-        $teachers=array();
-        foreach ($result as $key => $obj) {
-        $teachers[$obj->id] = $obj->firstname." ".$obj->lastname;
         
-    }
-
         // Issue options
         
         /*$mform->addElement('header', 'issueoptions', get_string('issueoptions', 'certificate'));
@@ -188,10 +164,12 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('select', 'printseal', get_string('printseal', 'certificate'), certificate_get_images(CERT_IMAGE_SEAL));
         $mform->setDefault('printseal', '0');
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
-*/
-
-        $mform->addElement('select', 'idteacher', "Profesor a firmar", $teachers);
+*/  
+        //Profesores del curso
+        $idcourse = required_param('course', PARAM_INT);
+        $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($idcourse));
         $mform->addRule('idteacher', null, 'required', null, 'client');
+        
         $mform->addElement('hidden', 'orientation', get_string('orientation', 'certificate'));
         $mform->setType('orientation', PARAM_TEXT);
         $mform->setDefault('orientation', 'L');
