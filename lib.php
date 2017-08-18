@@ -339,3 +339,52 @@ function certificate_get_view_actions() {
 function certificate_get_post_actions() {
     return array('received');
 }
+
+
+/**
+*retorna los usuarios matriculados en un curso
+*/
+function certificate_get_user_course($id){
+
+    global $DB;
+    $sql="SELECT 
+      mdl_user.id as userid,
+      mdl_user.username,
+      mdl_user.firstname, 
+      mdl_user.lastname, 
+      mdl_course.fullname, 
+      mdl_course.id 
+    FROM 
+      public.mdl_user, 
+      public.mdl_user_enrolments, 
+      public.mdl_course, 
+      public.mdl_enrol
+    WHERE 
+      mdl_user.id = mdl_user_enrolments.userid AND
+      mdl_user_enrolments.enrolid = mdl_enrol.id AND
+      mdl_enrol.courseid = mdl_course.id and mdl_course.id=?";
+    
+
+    return $DB->get_records_sql($sql, array($id));
+}
+
+
+/**
+* verfifica si un usuario tiene permiso para descargar un certificado en determinado curso
+* @param int $id
+* @return boolean
+*/
+function certificate_get_permission_user($userid,$courseid){
+    global $DB;
+    
+    $sql="select * from mdl_certificate_user where userid=? and courseid=?";
+    
+    $result = $DB->get_record_sql($sql, array($userid,$courseid));
+
+    if($result){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
