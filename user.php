@@ -60,14 +60,12 @@ echo $OUTPUT->header();
 
 	$result = certificate_get_user_course($id);
 	
-	//var_export($result);
-	
 	//global $CFG;
 	foreach ($result as $key => $obj) {
 		$row=array();
 		$row[]=$obj->username;
-		$row[]="<a href='$CFG->wwwroot/course/view.php?id=$obj->id'>".$obj->fullname."</a>";
-		$row[]="<input type='checkbox' class='checkoption' name='' >";
+		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->id'>".$obj->fullname."</a>";
+		$row[]="<input type='checkbox' class='checkoption' name='$obj->id' >";
 		$table->data[] = $row;
 		if(certificate_get_permission_user($obj->userid,$id)){
 			echo "con permiso";
@@ -81,6 +79,7 @@ echo html_writer::table($table);
 echo "</div>";
 
 $PAGE->requires->js_call_amd('mod_certificate/checkbox','init');
+
 echo $OUTPUT->footer();
 
 

@@ -26,8 +26,11 @@
 require_once("../../config.php");
 require_once('lib.php');
 
-require_login($course, false, $cm);
-$id = required_param('id', PARAM_INT);    // Course Module ID
+//require_login($course, false, $cm);
+$userid = required_param('userid', PARAM_INT);    // User Module ID
+$courseid = required_param('courseid', PARAM_INT);    // Course Module ID
+//$userid = $_POST['userid'] ;
+
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
@@ -38,3 +41,8 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
 if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
     print_error('course module is incorrect'); // NOTE As above
 }*/
+
+
+
+
+
