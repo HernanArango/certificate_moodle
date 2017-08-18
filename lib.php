@@ -368,11 +368,12 @@ function certificate_get_user_course($id){
 
     global $DB;
     $sql="SELECT 
-      mdl_user.id,
+      mdl_user.id as userid,
       mdl_user.username,
       mdl_user.firstname, 
       mdl_user.lastname, 
-      mdl_course.fullname
+      mdl_course.fullname,
+      mdl_course.id as courseid
       
     FROM 
       public.mdl_user, 

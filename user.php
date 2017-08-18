@@ -65,7 +65,7 @@ echo $OUTPUT->header();
 		$row=array();
 		$row[]=$obj->username;
 		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->id'>".$obj->fullname."</a>";
-		$row[]="<input type='checkbox' class='checkoption' name='$obj->id' >";
+		$row[]="<input type='checkbox' class='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
 		$table->data[] = $row;
 		if(certificate_get_permission_user($obj->userid,$id)){
 			echo "con permiso";
