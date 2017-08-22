@@ -81,66 +81,42 @@ $fontserif = get_config('certificate', 'fontserif');
 // Add images and lines
 certificate_print_image($pdf, $certificate, CERT_IMAGE_BORDER, $brdrx, $brdry, $brdrw, $brdrh);
 certificate_draw_frame($pdf, $certificate);
-// Set alpha to semi-transparency
-//$pdf->SetAlpha(0.2);
+
+//Load UV Icon
 certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wmarky, $wmarkw, $wmarkh);
-//$pdf->SetAlpha(1);
-certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $sealx, $sealy, '', '');
-//certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $sigx, $sigy, '', '');
-//certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, 200, $sigy, '', '');
-certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 
-
-   
-// Add text
-$pdf->SetTextColor(0, 0, 0);
-$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);
-//certificate_print_text($pdf, $x, $y + 10, 'C', $fontsans, '', 30, get_string('title', 'certificate'));
+//Print Tittle/Certification to stutend
 certificate_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
-//certificate_print_text($pdf, $x, $y + 30, 'C', $fontsans, 'B', 20, get_string('certify', 'certificate'));
 certificate_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica que:");
+
+//Print User name
 certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
 
+//Print Date
+setlocale(LC_TIME,"es_ES");
 certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
 
-
+//Print Certification to course/name course
 certificate_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificate'));
 certificate_print_text($pdf, $x, $y + 90, 'C', $fontsans, 'B', 20, format_string($course->fullname));
+
+//Print hours per course/City
 certificate_print_text($pdf, $x, $y + 115, 'C', $fontsans, 'B', 17,"con una intensidad de ".format_string($certificate->printhours)." horas");
 certificate_print_text($pdf, $x, $y + 125, 'C', $fontsans, 'B', 12,"Santiago de Cali - Colombia");
 
-/*
-certificate_print_text($pdf, $x, $y + 110, 'C', $fontsans, '', 14,  certificate_get_date($certificate, $certrecord, $course));
-certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_grade($certificate, $course));
-certificate_print_text($pdf, $x, $y + 110, 'C', $fontserif, '', 10, certificate_get_outcome($certificate, $course));
+//Print Student Name
+certificate_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 
-if ($certificate->printhours) {
-    certificate_print_text($pdf, $x, $y + 122, 'C', $fontserif, '', 10, get_string('credithours', 'certificate') . ': ' . $certificate->printhours);
-}
-*/
-//Buscando Firmas
-//Firma Tutor
+//Load image and name teacher/tutor
 $path_tutor="$CFG->dirroot/mod/certificate/pix/signatures/".$certificate->idteacher.".png";
 $pdf->Image($path_tutor,$sigx,$sigy-5,50);
+certificate_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, certificate_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
+
+//Load image and name Director
 //Firma Director
 $path_director="$CFG->dirroot/mod/certificate/pix/signatures/directora.png";
 $pdf->Image($path_director,200,$sigy-5,50);
-
-
-certificate_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, certificate_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
-
 certificate_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
 
-certificate_print_text($pdf, $x, $codey, 'C', $fontserif, '', 10, certificate_get_code($certificate, $certrecord));
-$i = 0;
-if ($certificate->printteacher) {
-    $context = context_module::instance($cm->id);
-    if ($teachers = get_users_by_capability($context, 'mod/certificate:printteacher', '', $sort = 'u.lastname ASC', '', '', '', '', false)) {
-        foreach ($teachers as $teacher) {
-            $i++;
-            certificate_print_text($pdf, $sigx, $sigy + ($i * 4), 'L', $fontserif, '', 12, fullname($teacher));
-        }
-    }
-}
-
-certificate_print_text($pdf, $custx, $custy, 'L', null, null, null, $certificate->customtext);
+//Load QR Code
+$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);
