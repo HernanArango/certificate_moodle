@@ -7,16 +7,19 @@ define(['jquery'], function($) {
                 var courseid = $(this).attr('courseid');
                 var userid = $(this).attr('userid');
 
-                
+                var option =""
                 if ($(this).is(":checked"))
                 {
-                  alert("checked");
+                    
+                    option = "insert";
+                    
                 }
                 else{
+                    option = "delete";
                     
                 }
 
-                $.post( "assign_permission.php",{"userid": userid, "courseid":courseid}, function( data ) {
+                $.post( "assign_permission.php",{"userid": userid, "courseid":courseid, "option":option}, function( data ) {
                   $( ".result" ).html( data );
                 });
                 

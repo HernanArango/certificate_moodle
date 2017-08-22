@@ -343,7 +343,6 @@ function certificate_get_post_actions() {
 
 
 /**
-<<<<<<< HEAD
 *Usada para traer el nombre del profesor(tutor) que va a firmar
 */
 function certificate_get_teacher_signature($id_user) {
@@ -433,11 +432,30 @@ function certificate_get_permission_user($userid,$courseid){
     $sql="select * from mdl_certificate_user where userid=? and courseid=?";
     
     $result = $DB->get_record_sql($sql, array($userid,$courseid));
-
+    
     if($result){
         return true;
     }
     else{
         return false;
+    }
+}
+
+
+function certificate_change_user_permission($userid,$courseid,$option){
+
+    global $DB;
+
+    if ($option == "delete") {
+    
+        $DB->delete_records('certificate_user', array("userid"=>$userid, "courseid"=> $courseid));
+
+    }
+    elseif($option == "insert"){
+        
+        $record = new stdClass();
+        $record->userid = $userid;
+        $record->courseid = $courseid;
+        $lastinsertid = $DB->insert_record('certificate_user', $record, false);
     }
 }
