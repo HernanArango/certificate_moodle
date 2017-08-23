@@ -27,7 +27,7 @@ require_once("../../config.php");
 require_once('lib.php');
 
 require_login($course, false, $cm);
-$id = required_param('id', PARAM_INT);    // Course Module ID
+$idCertificado = required_param('id', PARAM_INT);    // Course Module ID
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
@@ -38,6 +38,12 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
 if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
     print_error('course module is incorrect'); // NOTE As above
 }*/
+
+
+$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
+//idcourse
+$id =$certificate->id;
+
 
 $PAGE->navbar->add("Cursos Demo");
 
@@ -65,14 +71,17 @@ echo $OUTPUT->header();
 		$row=array();
 		$row[]=$obj->username;
 		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->id'>".$obj->fullname."</a>";
-		$row[]="<input type='checkbox' class='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
-		$table->data[] = $row;
-		if(certificate_get_permission_user($obj->userid,$id)){
-			echo "con permiso";
+		//$row[]="<input type='checkbox' class='checkoption' name='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
+		
+		if(certificate_get_permission_user($obj->userid,$obj->courseid)){
+			
+			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->userid' courseid='$obj->courseid' checked>";
 		}
 		else{
-			echo "sin permiso";
+			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->userid' courseid='$obj->courseid' >";
+			
 		}
+		$table->data[] = $row;
 	}
 echo "<div class='box generalbox boxaligncenter boxwidthnormal'>";
 echo html_writer::table($table);
@@ -81,6 +90,8 @@ echo "</div>";
 $PAGE->requires->js_call_amd('mod_certificate/checkbox','init');
 
 echo $OUTPUT->footer();
+
+
 
 
 

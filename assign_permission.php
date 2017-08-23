@@ -27,9 +27,13 @@ require_once("../../config.php");
 require_once('lib.php');
 
 //require_login($course, false, $cm);
-$userid = required_param('userid', PARAM_INT);    // User Module ID
-$courseid = required_param('courseid', PARAM_INT);    // Course Module ID
-//$userid = $_POST['userid'] ;
+$userid = required_param('userid', PARAM_INT);    
+$courseid = required_param('courseid', PARAM_INT);   
+$option = required_param('option', PARAM_ALPHA);    
+
+
+
+certificate_change_user_permission($userid,$courseid,$option);
 
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
@@ -41,6 +45,8 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
 if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
     print_error('course module is incorrect'); // NOTE As above
 }*/
+
+
 
 
 
