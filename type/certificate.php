@@ -73,7 +73,7 @@ if ($certificate->orientation == 'L') {
     $brdrh = 297;
     $codey = 250;
 }
-
+$pdf->SetTextColor(1,1,1);
 // Get font families.
 $fontsans = get_config('certificate', 'fontsans');
 $fontserif = get_config('certificate', 'fontserif');
@@ -90,8 +90,9 @@ certificate_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectorí
 certificate_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica que:");
 
 //Print User name
+$pdf->SetTextColor(0,5,82);
 certificate_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
-
+$pdf->SetTextColor(1,1,1);
 //Print Date
 setlocale(LC_TIME,"es_ES");
 certificate_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
