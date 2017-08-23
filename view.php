@@ -112,9 +112,6 @@ if (empty($action)) { // Not displaying PDF
         echo $OUTPUT->box(format_module_intro('certificate', $certificate, $cm->id), 'generalbox', 'intro');
     }
 
-    if ($attempts = certificate_get_attempts($certificate->id)) {
-        echo certificate_print_attempts($course, $certificate, $attempts);
-    }
     if ($certificate->delivery == 0)    {
         $str = get_string('openwindow', 'certificate');
     } elseif ($certificate->delivery == 1)    {
@@ -122,7 +119,7 @@ if (empty($action)) { // Not displaying PDF
     } elseif ($certificate->delivery == 2)    {
         $str = get_string('openemail', 'certificate');
     }
-    echo html_writer::tag('p', $str, array('style' => 'text-align:center'));
+    
     $linkname = get_string('getcertificate', 'certificate');
 
     $link = new moodle_url('/mod/certificate/view.php?id='.$cm->id.'&action=get');
@@ -130,8 +127,22 @@ if (empty($action)) { // Not displaying PDF
     if ($certificate->delivery != 1) {
         $button->add_action(new popup_action('click', $link, 'view' . $cm->id, array('height' => 600, 'width' => 800)));
     }
+        
+    $disponibilidad_certificado = certificate_get_permission_user($USER->id, $course->id);
 
-    echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
+    if ($disponibilidad_certificado){
+    	if ($attempts = certificate_get_attempts($certificate->id)) {
+        echo certificate_print_attempts($course, $certificate, $attempts);
+    	}
+
+		echo html_writer::tag('p', $str, array('style' => 'text-align:center'));
+    	echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
+    }
+    else {
+    	echo html_writer::tag('h1', "Lo sentimos, usted no puede imprimir el certificado", array('style' => 'text-align:center','class' =>  'panel panel-warning'));
+    }
+    
+
     echo $OUTPUT->footer($course);
     exit;
 } else { // Output to pdf
