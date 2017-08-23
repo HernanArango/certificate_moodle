@@ -132,6 +132,27 @@ if (empty($action)) { // Not displaying PDF
     }
 
     echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
+
+    //Averiguamos permisos como profesor
+    $context = context_module::instance($cm->id);
+
+    $roles = get_user_roles($context, $USER->id, true);
+
+    foreach ($roles as $role) { 
+        
+        //role profesor
+        if($role->roleid == 3){
+            //añadir button de asignar permisos
+            $link = new moodle_url('/mod/certificate/user.php?id='.$course->id);
+            $button = new single_button($link, "Asignar Permisos");
+            echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
+            break;        
+        }
+    }
+
+    
+
+
     echo $OUTPUT->footer($course);
     exit;
 } else { // Output to pdf

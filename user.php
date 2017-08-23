@@ -49,6 +49,12 @@ $PAGE->navbar->add("Cursos Demo");
 
 $PAGE->set_title(format_string($certificate->name));
 $PAGE->set_heading(format_string($course->fullname));
+
+$PAGE->set_url('/mod/certificate/view.php', array('id' => $cm->id));
+//$context = context_module::instance($cm->id);
+//$PAGE->set_context($context);
+//$PAGE->set_cm($cm);
+
 echo $OUTPUT->header();
 
 
