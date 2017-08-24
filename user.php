@@ -27,7 +27,7 @@ require_once("../../config.php");
 require_once('lib.php');
 
 require_login($course, false, $cm);
-$idCertificado = required_param('id', PARAM_INT);    // Course Module ID
+$idCourse= required_param('id', PARAM_INT);    // Course Module ID
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
@@ -40,17 +40,18 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 }*/
 
 
-$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
+//$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
 //idcourse
-$id =$certificate->id;
+//$id =$certificate->id;
 
 
-$PAGE->navbar->add("Cursos Demo");
 
-$PAGE->set_title(format_string($certificate->name));
-$PAGE->set_heading(format_string($course->fullname));
 
 $PAGE->set_url('/mod/certificate/view.php', array('id' => $cm->id));
+$PAGE->set_title(format_string("name"));
+$PAGE->set_heading(format_string("fullname"));
+//$PAGE->navbar->add("Cursos Demo");
+
 //$context = context_module::instance($cm->id);
 //$PAGE->set_context($context);
 //$PAGE->set_cm($cm);
@@ -70,13 +71,13 @@ echo $OUTPUT->header();
     );
     $table->data = array();			
 
-	$result = certificate_get_user_course($id);
+	$result = certificate_get_user_course($idCourse);
 	
 	//global $CFG;
 	foreach ($result as $key => $obj) {
 		$row=array();
 		$row[]=$obj->username;
-		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->id'>".$obj->fullname."</a>";
+		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->userid'>".$obj->fullname."</a>";
 		//$row[]="<input type='checkbox' class='checkoption' name='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
 		
 		if(certificate_get_permission_user($obj->userid,$obj->courseid)){
