@@ -27,8 +27,8 @@ require_once("../../config.php");
 require_once('lib.php');
 
 require_login($course, false, $cm);
-$idCertificado = required_param('id', PARAM_INT);    // Course Module ID
- 
+$id = required_param('id', PARAM_INT);    // Course Module ID
+
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
 }
@@ -40,9 +40,9 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 }*/
 
 
-$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
+//$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
 //idcourse
-$id =$certificate->id;
+//$id =$certificate->id;
 
 
 $PAGE->navbar->add("Cursos Demo");
