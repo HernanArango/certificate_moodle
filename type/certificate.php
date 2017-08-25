@@ -45,7 +45,7 @@ if ($certificate->orientation == 'L') {
     $sigy = 175;
     $custx = 47;
     $custy = 155;
-    $wmarkx = 135;
+    $wmarkx = 140;
     $wmarky = 20;
     $wmarkw = 18;
     $wmarkh = 25;
@@ -120,4 +120,4 @@ $pdf->Image($path_director,200,$sigy-5,50);
 certificate_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
 
 //Load QR Code
-//$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);
+$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);

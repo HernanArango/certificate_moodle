@@ -43,7 +43,8 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 }
 require_login($course, false, $cm);
 $context = context_module::instance($cm->id);
-//require_capability('mod/certificate:view', $context);
+
+require_capability('mod/certificate:view', $context);
 
 $event = \mod_certificate\event\course_module_viewed::create(array(
     'objectid' => $certificate->id,

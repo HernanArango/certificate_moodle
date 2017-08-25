@@ -164,12 +164,14 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('select', 'printseal', get_string('printseal', 'certificate'), certificate_get_images(CERT_IMAGE_SEAL));
         $mform->setDefault('printseal', '0');
         $mform->addHelpButton('printseal', 'printseal', 'certificate');
-*/  
-        //Profesores del curso
-        $idcourse = required_param('course', PARAM_INT);
-        $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($idcourse));
+*/      
+        $course = $this->get_course();
+        //Profesores del curso   
+        $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($course->id));
+        $mform->setDefault('idteacher', '0');
         $mform->addRule('idteacher', null, 'required', null, 'client');
-        
+
+
         $mform->addElement('hidden', 'orientation', get_string('orientation', 'certificate'));
         $mform->setType('orientation', PARAM_TEXT);
         $mform->setDefault('orientation', 'L');
@@ -195,7 +197,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         
 
 
-        $mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
+        //$mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
 
         $mform->setType('timefinalcourse', PARAM_TEXT);
 
