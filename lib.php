@@ -429,7 +429,7 @@ function certificate_get_teachers_course($id_course) {
 function certificate_get_permission_user($userid,$courseid){
     global $DB;
     
-    $sql="select * from mdl_certificate_user where userid=? and courseid=?";
+    $sql="select * from {certificate_user} where userid=? and courseid=?";
     
     $result = $DB->get_record_sql($sql, array($userid,$courseid));
     
@@ -441,7 +441,9 @@ function certificate_get_permission_user($userid,$courseid){
     }
 }
 
-
+/**
+* cambia el permiso de un usuario para obtener certificado
+**/
 function certificate_change_user_permission($userid,$courseid,$option){
 
     global $DB;
@@ -458,4 +460,21 @@ function certificate_change_user_permission($userid,$courseid,$option){
         $record->courseid = $courseid;
         $lastinsertid = $DB->insert_record('certificate_user', $record, false);
     }
+}
+
+
+function certificate_course_permission($courseid){
+    global $DB;
+
+    $sql="select * from {certificate_course_permissio} where courseid=?";
+    
+    $result = $DB->get_record_sql($sql, array($courseid));
+        
+    if ($result) {
+        return true;
+    }
+    else{
+        return false;
+    }
+
 }

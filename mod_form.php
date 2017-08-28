@@ -193,8 +193,6 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('text', 'printhours', get_string('printhours', 'certificate'), array('size'=>'5', 'maxlength' => '255'));
         $mform->setType('printhours', PARAM_TEXT);
         $mform->addHelpButton('printhours', 'printhours', 'certificate');
-        
-        
 
 
         //$mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
