@@ -4,18 +4,22 @@ define(['jquery'], function($) {
         init: function(id) {
             
             $('.checkoption').change(function(){
-                var id = $(this).attr('name');
+                var courseid = $(this).attr('courseid');
+                var userid = $(this).attr('userid');
 
-                alert(id);
+                var option =""
                 if ($(this).is(":checked"))
                 {
-                  alert("checked");
+                    
+                    option = "insert";
+                    
                 }
                 else{
+                    option = "delete";
                     
                 }
 
-                $.post( "assign_permission.php",{"userid": id}, function( data ) {
+                $.post( "assign_permission.php",{"userid": userid, "courseid":courseid, "option":option}, function( data ) {
                   $( ".result" ).html( data );
                 });
                 

@@ -28,6 +28,8 @@ require_once("$CFG->dirroot/mod/certificate/locallib.php");
 require_once("$CFG->dirroot/mod/certificate/deprecatedlib.php");
 require_once("$CFG->libdir/pdflib.php");
 
+
+
 $id = required_param('id', PARAM_INT);    // Course Module ID
 $action = optional_param('action', '', PARAM_ALPHA);
 $edit = optional_param('edit', -1, PARAM_BOOL);
@@ -41,6 +43,10 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
 if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
     print_error('course module is incorrect');
 }
+
+
+
+
 require_login($course, false, $cm);
 $context = context_module::instance($cm->id);
 
@@ -128,40 +134,45 @@ if (empty($action)) { // Not displaying PDF
     if ($certificate->delivery != 1) {
         $button->add_action(new popup_action('click', $link, 'view' . $cm->id, array('height' => 600, 'width' => 800)));
     }
-        
-    $disponibilidad_certificado = certificate_get_permission_user($USER->id, $course->id);
 
-    if ($disponibilidad_certificado){
-    	if ($attempts = certificate_get_attempts($certificate->id)) {
-        echo certificate_print_attempts($course, $certificate, $attempts);
-    	}
+    if(certificate_course_permission($cm->course)){
 
-		echo html_writer::tag('p', $str, array('style' => 'text-align:center'));
-    	echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
+            $disponibilidad_certificado = certificate_get_permission_user($USER->id, $course->id);
+
+            if ($disponibilidad_certificado){
+            	if ($attempts = certificate_get_attempts($certificate->id)) {
+                echo certificate_print_attempts($course, $certificate, $attempts);
+            	}
+
+        		echo html_writer::tag('p', $str, array('style' => 'text-align:center'));
+            	echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
+            }
+            else {
+            	echo html_writer::tag('h1', "Lo sentimos, usted no puede imprimir el certificado", array('style' => 'text-align:center','class' =>  'panel panel-warning'));
+            }
+            
+           
+
+            //Averiguamos permisos como profesor
+            $context = context_module::instance($cm->id);
+
+            $roles = get_user_roles($context, $USER->id, true);
+
+            foreach ($roles as $role) { 
+                
+                //role profesor
+                if($role->roleid == 3){
+                    //añadir button de asignar permisos
+                    $link = new moodle_url('/mod/certificate/user.php?id='.$course->id);
+                    $button = new single_button($link, "Asignar Permisos");
+                    echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
+                    break;        
+                }
+            }
     }
-    else {
-    	echo html_writer::tag('h1', "Lo sentimos, usted no puede imprimir el certificado", array('style' => 'text-align:center','class' =>  'panel panel-warning'));
+    else{
+        echo html_writer::tag('h1', "Este curso no posee autorización por parte de la Dintev para exportar certificados", array('style' => 'text-align:center','class' =>  'panel panel-warning'));
     }
-    
-   
-
-    //Averiguamos permisos como profesor
-    $context = context_module::instance($cm->id);
-
-    $roles = get_user_roles($context, $USER->id, true);
-
-    foreach ($roles as $role) { 
-        
-        //role profesor
-        if($role->roleid == 3){
-            //añadir button de asignar permisos
-            $link = new moodle_url('/mod/certificate/user.php?id='.$course->id);
-            $button = new single_button($link, "Asignar Permisos");
-            echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
-            break;        
-        }
-    }
-
     echo $OUTPUT->footer($course);
     exit;
 } else { // Output to pdf
