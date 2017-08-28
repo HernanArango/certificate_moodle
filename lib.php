@@ -390,8 +390,8 @@ function certificate_get_user_course($id){
 
 
 /**
-
 *Usada para obtener los profesores pertenecientes a un curo
+* @return array
 */
 function certificate_get_teachers_course($id_course) {
     global $DB;

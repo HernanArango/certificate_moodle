@@ -43,6 +43,7 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 }
 require_login($course, false, $cm);
 $context = context_module::instance($cm->id);
+
 require_capability('mod/certificate:view', $context);
 
 $event = \mod_certificate\event\course_module_viewed::create(array(
@@ -142,9 +143,7 @@ if (empty($action)) { // Not displaying PDF
     	echo html_writer::tag('h1', "Lo sentimos, usted no puede imprimir el certificado", array('style' => 'text-align:center','class' =>  'panel panel-warning'));
     }
     
-
-
-    
+   
 
     //Averiguamos permisos como profesor
     $context = context_module::instance($cm->id);
