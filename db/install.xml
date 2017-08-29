@@ -71,7 +71,7 @@
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="template_certificate" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="dintev" SEQUENCE="false"/>
+        <FIELD NAME="template_certificate" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="Dintev" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" />

@@ -390,7 +390,7 @@ function certificate_get_user_course($id){
 
 
 /**
-*Usada para obtener los profesores pertenecientes a un curo
+*Usada para obtener los profesores pertenecientes a un curso
 * @return array
 */
 function certificate_get_teachers_course($id_course) {
@@ -462,7 +462,9 @@ function certificate_change_user_permission($userid,$courseid,$option){
     }
 }
 
-
+/**
+* verifica si el curso tiene permisos para generar certificados
+*/
 function certificate_course_permission($courseid){
     global $DB;
 
@@ -477,4 +479,23 @@ function certificate_course_permission($courseid){
         return false;
     }
 
+}
+
+/**
+*retorna el nombre de la plantilla preestablecida para el certificado, si no existe retorna por defecto la de la dintev
+*/
+function certificate_get_type_template($courseid){
+    global $DB;
+
+    $sql="select template_certificate from {certificate_course_permissio} where courseid=?";
+    
+    $result = $DB->get_record_sql($sql, array($courseid));
+    
+    
+    if ($result) {
+        return $result->template_certificate;
+    }
+    else{
+        return "Dintev";
+    }   
 }

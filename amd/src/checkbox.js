@@ -10,7 +10,7 @@ define(['jquery'], function($) {
                 var option =""
                 if ($(this).is(":checked"))
                 {
-                    alert("hola");
+                    
                     option = "insert";
                     
                 }

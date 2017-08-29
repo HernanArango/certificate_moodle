@@ -180,6 +180,9 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->setType('printwmark', PARAM_TEXT);
         $mform->setDefault('printwmark', 'logo_univalle.png');
         
+        $mform->addElement('text', 'certificatetype', get_string('certificatetype', 'certificate'));
+        $mform->setType('certificatetype', PARAM_TEXT);
+        $mform->setDefault('certificatetype',  certificate_get_type_template($course->id));//funcion type certificate
 
         $mform->addElement('hidden', 'borderstyle', get_string('borderstyle', 'certificate'));
         $mform->setType('borderstyle', PARAM_TEXT);
