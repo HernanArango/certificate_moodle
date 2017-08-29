@@ -219,7 +219,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         $errors = parent::validation($data, $files);
 
         // Check that the required time entered is valid
-        if (date($data['timestartcourse']) > date($data['timefinalcourse'] < 0)){
+        if ((date($data['timestartcourse'])) > date($data['timefinalcourse'])){
 
             $errors['timestartcourse'] = "La fecha inicial es menor que la fecha final";
         }
@@ -227,4 +227,5 @@ class mod_certificate_mod_form extends moodleform_mod {
         return $errors;
 
     }
+
 }
