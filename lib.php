@@ -481,6 +481,7 @@ function certificate_course_permission($courseid){
 
 }
 
+<<<<<<< HEAD
 /**
 *retorna el nombre de la plantilla preestablecida para el certificado, si no existe retorna por defecto la de la dintev
 */
@@ -498,4 +499,18 @@ function certificate_get_type_template($courseid){
     else{
         return "Dintev";
     }   
+=======
+function cerrificate_get_template_selected($courseid){
+    global $DB;
+
+    $sql="select * from {certificate_course_permissio} where courseid=?";
+    
+    $result = $DB->get_record_sql($sql, array($courseid));
+
+    foreach ($result as $key => $obj) {
+            $template = $obj->template_certificate;
+        }
+
+    return $obj;
+>>>>>>> 8952f420dc23470636cce00e033762f88f8a0b1e
 }
