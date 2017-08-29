@@ -164,9 +164,6 @@ class mod_certificate_mod_form extends moodleform_mod {
 */      
         $course = $this->get_course();
 
-		
-
-
         //Profesores del curso   
         $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($course->id));
         $mform->setDefault('idteacher', '0');
@@ -181,7 +178,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->setType('printwmark', PARAM_TEXT);
         $mform->setDefault('printwmark', 'logo_univalle.png');
         
-        $mform->addElement('text', 'certificatetype', get_string('certificatetype', 'certificate'));
+        $mform->addElement('hidden', 'certificatetype', get_string('certificatetype', 'certificate'));
         $mform->setType('certificatetype', PARAM_TEXT);
         $mform->setDefault('certificatetype',  certificate_get_type_template($course->id));//funcion type certificate
 
@@ -197,9 +194,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         $mform->addElement('text', 'printhours', get_string('printhours', 'certificate'), array('size'=>'5', 'maxlength' => '255'));
         $mform->setType('printhours', PARAM_TEXT);
         $mform->addHelpButton('printhours', 'printhours', 'certificate');
-
-
-        //$mform->addElement('text', 'nameteacher', 'Nombre Profesor', array('size'=>'25', 'maxlength' => '255'));
+        $mform->addRule('printhours', null, 'required', null, 'client');
 
         $mform->setType('timefinalcourse', PARAM_TEXT);
 
@@ -218,18 +213,18 @@ class mod_certificate_mod_form extends moodleform_mod {
      * @param $files
      * @return array
      */
-/*
+
     public function validation($data, $files) {
 
         $errors = parent::validation($data, $files);
 
         // Check that the required time entered is valid
-        if ((!is_number($data['requiredtime']) || $data['requiredtime'] < 0)) {
-            $errors['requiredtime'] = get_string('requiredtimenotvalid', 'certificate');
+        if (date($data['timestartcourse']) > date($data['timefinalcourse'] < 0)){
+
+            $errors['timestartcourse'] = "La fecha inicial es menor que la fecha final";
         }
 
         return $errors;
 
     }
-    */
 }
