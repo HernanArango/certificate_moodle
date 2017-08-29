@@ -164,11 +164,8 @@ class mod_certificate_mod_form extends moodleform_mod {
 */      
         $course = $this->get_course();
 
-		$template_selected= cerrificate_get_template_selected($course->id);
+		
 
-        $mform->addElement('hidden', 'certificatetype', get_string('certificatetype', 'certificate'), certificate_types());
-        $mform->setType('certificatetype', PARAM_TEXT);
-        $mform->setDefault('certificatetype', $template_selected);
 
         //Profesores del curso   
         $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($course->id));
