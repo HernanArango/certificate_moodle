@@ -478,3 +478,17 @@ function certificate_course_permission($courseid){
     }
 
 }
+
+function cerrificate_get_template_selected($courseid){
+    global $DB;
+
+    $sql="select * from {certificate_course_permissio} where courseid=?";
+    
+    $result = $DB->get_record_sql($sql, array($courseid));
+
+    foreach ($result as $key => $obj) {
+            $template = $obj->template_certificate;
+        }
+
+    return $obj;
+}
