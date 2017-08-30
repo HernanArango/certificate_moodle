@@ -363,7 +363,7 @@ function certificateuv_get_teacher_signature($id_user) {
 /*
 *retorna los usuarios matriculados en un curso
 */
-function certificate_get_user_course($id){
+function certificateuv_get_user_course($id){
 
     global $DB;
     $sql="SELECT 
