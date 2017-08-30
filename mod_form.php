@@ -18,7 +18,7 @@
 /**
 * Instance add/edit form
 *
-* @package    mod_certificate
+* @package    mod_certificateuv
 * @copyright  Mark Nelson <markn@moodle.com>
 * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
 */
@@ -28,10 +28,10 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/certificate/locallib.php');
+require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
 
 
-class mod_certificate_mod_form extends moodleform_mod {
+class mod_certificateuv_mod_form extends moodleform_mod {
 
     function definition() {
         global $CFG;
@@ -41,7 +41,7 @@ class mod_certificate_mod_form extends moodleform_mod {
 
         $mform->addElement('header', 'general', get_string('general', 'form'));
 
-        $mform->addElement('text', 'name', get_string('certificatename', 'certificate'), array('size'=>'64'));
+        $mform->addElement('text', 'name', get_string('certificatename', 'certificateuv'), array('size'=>'64'));
         if (!empty($CFG->formatstringstriptags)) {
             $mform->setType('name', PARAM_TEXT);
         } else {
@@ -49,7 +49,7 @@ class mod_certificate_mod_form extends moodleform_mod {
         }
         $mform->addRule('name', null, 'required', null, 'client');
 
-        $this->standard_intro_elements(get_string('intro', 'certificate'));
+        $this->standard_intro_elements(get_string('intro', 'certificateuv'));
 
         
         // Issue options
@@ -165,35 +165,35 @@ class mod_certificate_mod_form extends moodleform_mod {
         $course = $this->get_course();
 
         //Profesores del curso   
-        $mform->addElement('select', 'idteacher', "Profesor a firmar", certificate_get_teachers_course($course->id));
+        $mform->addElement('select', 'idteacher', "Profesor a firmar", certificateuv_get_teachers_course($course->id));
         $mform->setDefault('idteacher', '0');
         $mform->addRule('idteacher', null, 'required', null, 'client');
 
 
-        $mform->addElement('hidden', 'orientation', get_string('orientation', 'certificate'));
+        $mform->addElement('hidden', 'orientation', get_string('orientation', 'certificateuv'));
         $mform->setType('orientation', PARAM_TEXT);
         $mform->setDefault('orientation', 'L');
 
-        $mform->addElement('hidden', 'printwmark', get_string('printwmark', 'certificate'));
+        $mform->addElement('hidden', 'printwmark', get_string('printwmark', 'certificateuv'));
         $mform->setType('printwmark', PARAM_TEXT);
         $mform->setDefault('printwmark', 'logo_univalle.png');
         
-        $mform->addElement('hidden', 'certificatetype', get_string('certificatetype', 'certificate'));
+        $mform->addElement('hidden', 'certificatetype', get_string('certificatetype', 'certificateuv'));
         $mform->setType('certificatetype', PARAM_TEXT);
-        $mform->setDefault('certificatetype',  certificate_get_type_template($course->id));//funcion type certificate
+        $mform->setDefault('certificatetype',  certificateuv_get_type_template($course->id));//funcion type certificate
 
-        $mform->addElement('hidden', 'borderstyle', get_string('borderstyle', 'certificate'));
+        $mform->addElement('hidden', 'borderstyle', get_string('borderstyle', 'certificateuv'));
         $mform->setType('borderstyle', PARAM_TEXT);
         $mform->setDefault('borderstyle', 'dintev.png');
 
-        $mform->addElement('hidden', 'printsignature', get_string('printsignature', 'certificate'));
+        $mform->addElement('hidden', 'printsignature', get_string('printsignature', 'certificateuv'));
         $mform->setType('printsignature', PARAM_TEXT);
         $mform->setDefault('printsignature', 'Line.png');
         
 
-        $mform->addElement('text', 'printhours', get_string('printhours', 'certificate'), array('size'=>'5', 'maxlength' => '255'));
+        $mform->addElement('text', 'printhours', get_string('printhours', 'certificateuv'), array('size'=>'5', 'maxlength' => '255'));
         $mform->setType('printhours', PARAM_TEXT);
-        $mform->addHelpButton('printhours', 'printhours', 'certificate');
+        $mform->addHelpButton('printhours', 'printhours', 'certificateuv');
         $mform->addRule('printhours', null, 'required', null, 'client');
 
         $mform->setType('timefinalcourse', PARAM_TEXT);

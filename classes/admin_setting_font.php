@@ -16,7 +16,7 @@
 /**
  * Certificate module data generator.
  *
- * @package   mod_certificate
+ * @package   mod_certificateuv
  * @copyright 2014 Totara Learning Solutions Ltd {@link http://www.totaralms.com/}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @author    Petr Skoda <petr.skoda@totaralms.com>
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/adminlib.php');
 
-class mod_certificate_admin_setting_font extends admin_setting_configselect {
+class mod_certificateuv_admin_setting_font extends admin_setting_configselect {
     /**
      * Constructor
      * @param string $name unique ascii name, either 'mysetting' for settings that in config, or 'myplugin/mysetting' for ones in config_plugins.

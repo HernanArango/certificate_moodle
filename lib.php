@@ -468,7 +468,7 @@ function certificateuv_change_user_permission($userid,$courseid,$option){
 function certificateuv_course_permission($courseid){
     global $DB;
 
-    $sql="select * from {certificateuv_course_permissio} where courseid=?";
+    $sql="select * from {certificateuv_course_perm} where courseid=?";
     
     $result = $DB->get_record_sql($sql, array($courseid));
         
@@ -488,7 +488,7 @@ function certificateuv_course_permission($courseid){
 function certificateuv_get_type_template($courseid){
     global $DB;
 
-    $sql="select template_certificate from {certificateuv_course_permissio} where courseid=?";
+    $sql="select template_certificate from {certificateuv_course_perm} where courseid=?";
     
     $result = $DB->get_record_sql($sql, array($courseid));
     

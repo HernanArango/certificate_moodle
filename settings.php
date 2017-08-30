@@ -27,13 +27,13 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
 
-    $settings->add(new mod_certificate_admin_setting_upload('certificate/uploadimage',
-        get_string('uploadimage', 'mod_certificate'), get_string('uploadimagedesc', 'certificate'), ''));
+    $settings->add(new mod_certificateuv_admin_setting_upload('certificateuv/uploadimage',
+        get_string('uploadimage', 'mod_certificateuv'), get_string('uploadimagedesc', 'certificateuv'), ''));
 
-    $settings->add(new mod_certificate_admin_setting_font('certificate/fontsans',
-        get_string('fontsans', 'mod_certificate'), get_string('fontsans_desc', 'mod_certificate'), 'freesans'));
+    $settings->add(new mod_certificateuv_admin_setting_font('certificateuv/fontsans',
+        get_string('fontsans', 'mod_certificateuv'), get_string('fontsans_desc', 'mod_certificateuv'), 'freesans'));
 
-    $settings->add(new mod_certificate_admin_setting_font('certificate/fontserif',
-        get_string('fontserif', 'mod_certificate'), get_string('fontserif_desc', 'mod_certificate'), 'freeserif'));
+    $settings->add(new mod_certificateuv_admin_setting_font('certificateuv/fontserif',
+        get_string('fontserif', 'mod_certificateuv'), get_string('fontserif_desc', 'mod_certificateuv'), 'freeserif'));
 
 }

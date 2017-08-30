@@ -23,5 +23,5 @@
  */
 
 $addons = array(
-    "mod_certificate" => array()
+    "mod_certificateuv" => array()
 );

@@ -49,7 +49,7 @@ $strsectionname = get_string('sectionname', 'format_'.$course->format);
 
 // Print the header
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_url('/mod/certificate/index.php', array('id'=>$course->id));
+$PAGE->set_url('/mod/certificateuv/index.php', array('id'=>$course->id));
 $PAGE->navbar->add($strcertificates);
 $PAGE->set_title($strcertificates);
 $PAGE->set_heading($course->fullname);

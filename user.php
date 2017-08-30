@@ -48,7 +48,7 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 
 
 
-$PAGE->set_url('/mod/certificate/view.php', array('id' => $cm->id));
+$PAGE->set_url('/mod/certificateuv/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string("name"));
 $PAGE->set_heading(format_string("fullname"));
 //$PAGE->navbar->add("Cursos Demo");
@@ -72,7 +72,7 @@ echo $OUTPUT->header();
     );
     $table->data = array();			
 
-	$result = certificate_get_user_course($idCourse);
+	$result = certificateuv_get_user_course($idCourse);
 	
 	//global $CFG;
 	foreach ($result as $key => $obj) {
@@ -81,7 +81,7 @@ echo $OUTPUT->header();
 		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->userid'>".$obj->fullname."</a>";
 		//$row[]="<input type='checkbox' class='checkoption' name='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
 		
-		if(certificate_get_permission_user($obj->userid,$obj->courseid)){
+		if(certificateuv_get_permission_user($obj->userid,$obj->courseid)){
 			
 			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->userid' courseid='$obj->courseid' checked>";
 		}
@@ -95,7 +95,7 @@ echo "<div class='box generalbox boxaligncenter boxwidthnormal'>";
 echo html_writer::table($table);
 echo "</div>";
 
-$PAGE->requires->js_call_amd('mod_certificate/checkbox','init');
+$PAGE->requires->js_call_amd('mod_certificateuv/checkbox','init');
 
 echo $OUTPUT->footer();
 

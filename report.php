@@ -18,7 +18,7 @@
 /**
  * Handles viewing the report
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -44,7 +44,7 @@ if (CERT_PER_PAGE !== 0) {
     $perpage = '9999999';
 }
 
-$url = new moodle_url('/mod/certificate/report.php', array('id'=>$id, 'page' => $page, 'perpage' => $perpage));
+$url = new moodle_url('/mod/certificateuv/report.php', array('id'=>$id, 'page' => $page, 'perpage' => $perpage));
 if ($download) {
     $url->param('download', $download);
 }
@@ -53,7 +53,7 @@ if ($action) {
 }
 $PAGE->set_url($url);
 
-if (!$cm = get_coursemodule_from_id('certificate', $id)) {
+if (!$cm = get_coursemodule_from_id('certificateuv', $id)) {
     print_error('Course Module ID was incorrect');
 }
 
@@ -61,7 +61,7 @@ if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('Course is misconfigured');
 }
 
-if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
+if (!$certificate = $DB->get_record('certificateuv', array('id'=> $cm->instance))) {
     print_error('Certificate ID was incorrect');
 }
 
@@ -70,16 +70,16 @@ require_login($course, false, $cm);
 
 // Check capabilities
 $context = context_module::instance($cm->id);
-require_capability('mod/certificate:manage', $context);
+require_capability('mod/certificateuv:manage', $context);
 
 // Declare some variables
-$strcertificates = get_string('modulenameplural', 'certificate');
-$strcertificate  = get_string('modulename', 'certificate');
-$strto = get_string('awardedto', 'certificate');
-$strdate = get_string('receiveddate', 'certificate');
-$strgrade = get_string('grade','certificate');
-$strcode = get_string('code', 'certificate');
-$strreport= get_string('report', 'certificate');
+$strcertificates = get_string('modulenameplural', 'certificateuv');
+$strcertificate  = get_string('modulename', 'certificateuv');
+$strto = get_string('awardedto', 'certificateuv');
+$strdate = get_string('receiveddate', 'certificateuv');
+$strgrade = get_string('grade','certificateuv');
+$strcode = get_string('code', 'certificateuv');
+$strreport= get_string('report', 'certificateuv');
 
 if (!$download) {
     $PAGE->navbar->add($strreport);
@@ -96,10 +96,10 @@ if (!$download) {
 }
 
 // Ensure there are issues to display, if not display notice
-if (!$users = certificate_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm, $page, $perpage)) {
+if (!$users = certificateuv_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm, $page, $perpage)) {
     echo $OUTPUT->header();
-    groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificate/report.php?id='.$id);
-    echo $OUTPUT->notification(get_string('nocertificatesissued', 'certificate'));
+    groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificateuv/report.php?id='.$id);
+    echo $OUTPUT->notification(get_string('nocertificatesissued', 'certificateuv'));
     echo $OUTPUT->footer($course);
     exit();
 }
@@ -111,7 +111,7 @@ if ($download == "ods") {
     require_once("$CFG->libdir/odslib.class.php");
 
     // Calculate file name
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.ods';
+    $filename = certificateuv_get_certificate_filename($certificate, $cm, $course) . '.ods';
     // Creating a workbook
     $workbook = new MoodleODSWorkbook("-");
     // Send HTTP headers
@@ -152,7 +152,7 @@ if ($download == "ods") {
             }
             $myxls->write_string($row, $nextposition, $ug2);
             $myxls->write_string($row, $nextposition + 1, userdate($user->timecreated));
-            $myxls->write_string($row, $nextposition + 2, certificate_get_grade($certificate, $course, $user->id));
+            $myxls->write_string($row, $nextposition + 2, certificateuv_get_grade($certificate, $course, $user->id));
             $myxls->write_string($row, $nextposition + 3, $user->code);
             $row++;
         }
@@ -167,7 +167,7 @@ if ($download == "xls") {
     require_once("$CFG->libdir/excellib.class.php");
 
     // Calculate file name
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.xls';
+    $filename = certificateuv_get_certificate_filename($certificate, $cm, $course) . '.xls';
     // Creating a workbook
     $workbook = new MoodleExcelWorkbook("-");
     // Send HTTP headers
@@ -208,7 +208,7 @@ if ($download == "xls") {
             }
             $myxls->write_string($row, $nextposition, $ug2);
             $myxls->write_string($row, $nextposition + 1, userdate($user->timecreated));
-            $myxls->write_string($row, $nextposition + 2, certificate_get_grade($certificate, $course, $user->id));
+            $myxls->write_string($row, $nextposition + 2, certificateuv_get_grade($certificate, $course, $user->id));
             $myxls->write_string($row, $nextposition + 3, $user->code);
             $row++;
         }
@@ -220,7 +220,7 @@ if ($download == "xls") {
 }
 
 if ($download == "txt") {
-    $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.txt';
+    $filename = certificateuv_get_certificate_filename($certificate, $cm, $course) . '.txt';
 
     header("Content-Type: application/download\n");
     header("Content-Disposition: attachment; filename=\"$filename\"");
@@ -255,14 +255,14 @@ if ($download == "txt") {
         }
         echo $ug2 . "\t";
         echo userdate($user->timecreated) . "\t";
-        echo certificate_get_grade($certificate, $course, $user->id) . "\t";
+        echo certificateuv_get_grade($certificate, $course, $user->id) . "\t";
         echo $user->code . "\n";
         $row++;
     }
     exit;
 }
 
-$usercount = count(certificate_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm));
+$usercount = count(certificateuv_get_issues($certificate->id, $DB->sql_fullname(), $groupmode, $cm));
 
 // Create the table for the users
 $table = new html_table();
@@ -278,14 +278,14 @@ $table->head = array_merge($table->head, array($strdate, $strgrade, $strcode));
 $table->align = array_merge($table->align, array('left', 'center', 'center'));
 foreach ($users as $user) {
     $name = $OUTPUT->user_picture($user) . fullname($user);
-    $date = userdate($user->timecreated) . certificate_print_user_files($certificate, $user->id, $context->id);
+    $date = userdate($user->timecreated) . certificateuv_print_user_files($certificate, $user->id, $context->id);
     $code = $user->code;
     $data = array();
     $data[] = $name;
     foreach ($extrafields as $field) {
         $data[] = $user->$field;
     }
-    $data = array_merge($data, array($date, certificate_get_grade($certificate, $course, $user->id), $code));
+    $data = array_merge($data, array($date, certificateuv_get_grade($certificate, $course, $user->id), $code));
     $table->data[] = $data;
 }
 
@@ -298,8 +298,8 @@ $btndownloadtxt = $OUTPUT->single_button(new moodle_url("report.php", array('id'
 $tablebutton->data[] = array($btndownloadods, $btndownloadxls, $btndownloadtxt);
 
 echo $OUTPUT->header();
-groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificate/report.php?id='.$id);
-echo $OUTPUT->heading(get_string('modulenameplural', 'certificate'));
+groups_print_activity_menu($cm, $CFG->wwwroot . '/mod/certificateuv/report.php?id='.$id);
+echo $OUTPUT->heading(get_string('modulenameplural', 'certificateuv'));
 echo $OUTPUT->paging_bar($usercount, $page, $perpage, $url);
 echo '<br />';
 echo html_writer::table($table);
