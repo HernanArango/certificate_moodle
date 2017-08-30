@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the certificateuv module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Deprecated certificate functions.
+ * Deprecated certificateuv functions.
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,12 +26,12 @@
 /**
  * Prepare to be print the date -- defaults to time.
  *
- * @deprecated since certificate version 2012052501
- * @param stdClass $certificate
+ * @deprecated since certificateuv version 2012052501
+ * @param stdClass $certificateuv
  * @param stdClass $course
  * @return string the date
  */
-function certificate_generate_date($certificate, $course) {
+function certificateuv_generate_date($certificate, $course) {
     debugging('certificate_generate_date is deprecated, please use certificate_get_date instead which will
                return a date in a human readable format.', DEBUG_DEVELOPER);
 
@@ -52,7 +52,7 @@ function certificate_generate_date($certificate, $course) {
             }
         }
     } else if ($certificate->printdate > 2) {
-        if ($modinfo = certificate_get_mod_grade($course, $certificate->printdate, $USER->id)) {
+        if ($modinfo = certificateuv_get_mod_grade($course, $certificate->printdate, $USER->id)) {
             $date = $modinfo->dategraded;
         }
     }
@@ -67,7 +67,7 @@ function certificate_generate_date($certificate, $course) {
  * @param stdClass $course
  * @return mixed
  */
-function certificate_print_course_grade($course){
+function certificateuv_print_course_grade($course){
     debugging('certificate_print_course_grade is deprecated, please use certificate_get_grade instead. Ideally
                you should be using certificate_get_grade in your certificate type which will either get the course
                or module grade depending on your certificate settings.', DEBUG_DEVELOPER);
@@ -91,34 +91,34 @@ function certificate_print_course_grade($course){
 /**
  * Prepare to print an activity grade.
  *
- * @deprecated since certificate version 2012052501
+ * @deprecated since certificateuv version 2012052501
  * @param stdClass $course
  * @param int $moduleid
  * @return mixed
  */
-function certificate_print_mod_grade($course, $moduleid){
+function certificateuv_print_mod_grade($course, $moduleid){
     debugging('certificate_print_mod_grade is deprecated, please use certificate_get_mod_grade instead. Ideally
                you should be using certificate_get_grade in your certificate type which will either get the course
                or module grade depending on your certificate settings.', DEBUG_DEVELOPER);
 
     global $USER;
 
-    return certificate_get_mod_grade($course, $moduleid, $USER->id);
+    return certificateuv_get_mod_grade($course, $moduleid, $USER->id);
 }
 
 
 /**
 * Prepare to print an outcome.
 *
-* @deprecated since certificate version 2012052501
+* @deprecated since certificateuv version 2012052501
 * @param stdClass $course
 * @param int $moduleid
 * @return mixed
 */
-function certificate_print_outcome($course, $id) {
+function certificateuv_print_outcome($course, $id) {
     debugging('certificate_print_outcome is deprecated, please use certificate_get_outcome instead', DEBUG_DEVELOPER);
 
-    return certificate_get_outcome($certificate, $course);
+    return certificateuv_get_outcome($certificate, $course);
 }
 
 /**
@@ -132,7 +132,7 @@ function certificate_print_outcome($course, $id) {
 function draw_frame($pdf, $certificate) {
     debugging('draw_frame is deprecated, please use certificate_draw_frame instead', DEBUG_DEVELOPER);
 
-    certificate_draw_frame($pdf, $certificate);
+    certificateuv_draw_frame($pdf, $certificate);
 }
 
 /**
@@ -146,7 +146,7 @@ function draw_frame($pdf, $certificate) {
 function draw_frame_letter($pdf, $certificate) {
     debugging('draw_frame_letter is deprecated, please use certificate_draw_frame_letter instead', DEBUG_DEVELOPER);
 
-    certificate_draw_frame_letter($pdf, $certificate);
+    certificateuv_draw_frame_letter($pdf, $certificate);
 }
 
 /**
@@ -164,7 +164,7 @@ function draw_frame_letter($pdf, $certificate) {
 function print_border($pdf, $certificate, $x, $y, $w, $h) {
     debugging('print_watermark is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_BORDER, $x, $y, $w, $h);
+    certificateuv_print_image($pdf, $certificate, CERT_IMAGE_BORDER, $x, $y, $w, $h);
 }
 
 /**
@@ -182,7 +182,7 @@ function print_border($pdf, $certificate, $x, $y, $w, $h) {
 function print_watermark($pdf, $certificate, $x, $y, $w, $h) {
     debugging('print_watermark is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $x, $y, $w, $h);
+    certificateuv_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $x, $y, $w, $h);
 }
 
 /**
@@ -200,7 +200,7 @@ function print_watermark($pdf, $certificate, $x, $y, $w, $h) {
 function print_signature($pdf, $certificate, $x, $y, $w, $h) {
     debugging('print_signature is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $x, $y, $w, $h);
+    certificateuv_print_image($pdf, $certificate, CERT_IMAGE_SIGNATURE, $x, $y, $w, $h);
 }
 
 /**
@@ -218,7 +218,7 @@ function print_signature($pdf, $certificate, $x, $y, $w, $h) {
 function print_seal($pdf, $certificate, $x, $y, $w, $h) {
     debugging('print_seal is deprecated, please use certificate_print_image instead', DEBUG_DEVELOPER);
 
-    certificate_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $x, $y, $w, $h);
+    certificateuv_print_image($pdf, $certificate, CERT_IMAGE_SEAL, $x, $y, $w, $h);
 }
 
 /**
@@ -243,6 +243,6 @@ function cert_printtext($pdf, $x, $y, $align, $font, $style, $size, $text) {
     }
 
     $hasbeenwarned = true;
-    certificate_print_text($pdf, $x, $y, $align, $font, $style, $size, $text);
+    certificateuv_print_text($pdf, $x, $y, $align, $font, $style, $size, $text);
 }
 
