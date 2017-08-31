@@ -46,8 +46,6 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 //$id =$certificate->id;
 
 
-
-
 $PAGE->set_url('/mod/certificate/view.php', array('id' => $cm->id));
 $PAGE->set_title(format_string("name"));
 $PAGE->set_heading(format_string("fullname"));
