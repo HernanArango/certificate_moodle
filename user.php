@@ -29,6 +29,7 @@ require_once('lib.php');
 require_login($course, false, $cm);
 
 $idCourse= required_param('id', PARAM_INT);    // Course Module ID
+$certicateid= required_param('certicateid', PARAM_INT);    // Course Module ID
 
 // Course Module ID
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
@@ -97,8 +98,7 @@ echo "<div class='box generalbox boxaligncenter boxwidthnormal'>";
 echo html_writer::table($table);
 echo "</div>";
 
-$url = new moodle_url('/mod/certificateuv/view.php?id='.$cm->id);
-echo $cm->id;
+$url = new moodle_url('/mod/certificateuv/view.php?id='.$certicateid);
 $button = new single_button($url, "Volver");
 echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
 

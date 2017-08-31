@@ -158,7 +158,7 @@ if (empty($action)) { // Not displaying PDF
                 //role profesor
                 if($role->roleid == 3){
                     //añadir button de asignar permisos
-                    $link = new moodle_url('/mod/certificateuv/user.php?id='.$course->id.'&certicateid='.$certificate->id);
+                    $link = new moodle_url('/mod/certificateuv/user.php?id='.$course->id.'&certicateid='.$cm->id);
                     $button = new single_button($link, "Asignar Permisos");
                     echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
                     break;        
