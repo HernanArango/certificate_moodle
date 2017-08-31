@@ -49,6 +49,7 @@ if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance)))
 
 
 $PAGE->set_url('/mod/certificateuv/view.php', array('id' => $cm->id));
+
 $PAGE->set_title(format_string("name"));
 $PAGE->set_heading(format_string("fullname"));
 //$PAGE->navbar->add("Cursos Demo");
