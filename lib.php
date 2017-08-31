@@ -501,3 +501,11 @@ function certificateuv_get_type_template($courseid){
     }   
 
 }
+
+/**
+*Valida si existe o no la firma del docente en el sistema de archivos.
+*/
+function certificateuv_get_type_template($courseid){
+    
+    
+}
