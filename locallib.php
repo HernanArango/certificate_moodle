@@ -1278,3 +1278,32 @@ function certificateuv_get_certificate_filename($certificate, $cm, $course) {
 
     return $filename;
 }
+
+/**
+*Valida si existe la firma digital del usuario
+*/
+function certificadouv_check_signature_image($userid){
+
+    global $DB, $CFG;
+
+    $sql="select username from {user} where id=?";
+
+    $result = $DB->get_record_sql($sql, array($userid));
+
+    if ($result){
+        $path = $CFG->dirroot.'/mod/certificateuv/pix/signatures/'.$result->username.'.png';
+
+        if (file_exists($path)) {
+
+            return true;
+        }
+
+        else{
+
+            return false;
+        }
+    }
+    else{
+        return false;
+    }
+}

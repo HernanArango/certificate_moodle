@@ -86,10 +86,8 @@ class mod_certificateuv_mod_form extends moodleform_mod {
         $mform->addHelpButton('printhours', 'printhours', 'certificateuv');
         $mform->addRule('printhours', null, 'required', null, 'client');
 
-        $mform->setType('timefinalcourse', PARAM_TEXT);
-
-        $mform->addElement('date_selector', 'timestartcourse', get_string('datestartcourse', 'certificateuv'));
-        $mform->addElement('date_selector', 'timefinalcourse', get_string('dateendcourse', 'certificateuv'));
+        $mform->addElement('date_selector', 'timestartcourse', get_string('timestartcourse', 'certificateuv'));
+        $mform->addElement('date_selector', 'timefinalcourse', get_string('timefinalcourse', 'certificateuv'));
 
         $this->standard_coursemodule_elements();
 
@@ -114,7 +112,10 @@ class mod_certificateuv_mod_form extends moodleform_mod {
             $errors['timestartcourse'] = "La fecha inicial es menor que la fecha final";
         }
 
+        if(!certificadouv_check_signature_image($data['idteacher'])){
+        	$errors['idteacher'] = "El docente seleccionado no ha cargado su firma digital";	
+        }
+
         return $errors;
     }
-
 }

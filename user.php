@@ -29,7 +29,8 @@ require_once('lib.php');
 require_login($course, false, $cm);
 
 $idCourse= required_param('id', PARAM_INT);    // Course Module ID
- 
+
+// Course Module ID
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
 }
@@ -95,6 +96,11 @@ echo $OUTPUT->header();
 echo "<div class='box generalbox boxaligncenter boxwidthnormal'>";
 echo html_writer::table($table);
 echo "</div>";
+
+$url = new moodle_url('/mod/certificateuv/view.php?id='.$cm->id);
+echo $cm->id;
+$button = new single_button($url, "Volver");
+echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
 
 $PAGE->requires->js_call_amd('mod_certificateuv/checkbox','init');
 

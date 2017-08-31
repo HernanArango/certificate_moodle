@@ -87,29 +87,32 @@ certificateuv_print_image($pdf, $certificate, CERT_IMAGE_WATERMARK, $wmarkx, $wm
 
 //Print Tittle/Certification to stutend
 certificateuv_print_text($pdf, $x, $y + 17, 'C', $fontsans, '', 17, "Vicerrectoría Académica<br>Dirección de Nuevas Tecnologías y Educación Virtual");
-certificateuv_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 20, "Certifica que:");
+certificateuv_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 17, "Certifica que:");
 
 //Print User name
-$pdf->SetTextColor(0,5,82);
+
 certificateuv_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
-$pdf->SetTextColor(1,1,1);
+certificateuv_print_text($pdf, $x, $y + 53, 'C', $fontsans, '', 22, format_string($USER->username));
+
 //Print Date
 setlocale(LC_TIME,"es_ES");
 certificateuv_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
 
 //Print Certification to course/name course
 certificateuv_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificateuv'));
-certificateuv_print_text($pdf, $x, $y + 90, 'C', $fontsans, 'B', 20, format_string($course->fullname));
+$pdf->setTextColor(0,93,130);
+certificateuv_print_text($pdf, $x, $y + 95, 'C', $fontsans, 'B', 20, format_string($course->fullname));
+$pdf->SetTextColor(1,1,1);
 
 //Print hours per course/City
 certificateuv_print_text($pdf, $x, $y + 115, 'C', $fontsans, 'B', 17,"con una intensidad de ".format_string($certificate->printhours)." horas");
-certificateuv_print_text($pdf, $x, $y + 125, 'C', $fontsans, 'B', 12,"Santiago de Cali - Colombia");
+certificateuv_print_text($pdf, $x, $y + 125, 'C', $fontsans, '', 12,"Santiago de Cali - Colombia");
 
 //Print Student Name
 certificateuv_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
 
 //Load image and name teacher/tutor
-$path_tutor="$CFG->dirroot/mod/certificateuv/pix/signatures/".$certificate->idteacher.".png";
+$path_tutor="$CFG->dirroot/mod/certificateuv/pix/signatures/".$USER->username.".png";
 $pdf->Image($path_tutor,$sigx,$sigy-5,50);
 certificateuv_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, certificateuv_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
 
