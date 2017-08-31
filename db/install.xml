@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/certificate/db" VERSION="20140928" COMMENT="XMLDB file for Moodle mod/certificate"
+<XMLDB PATH="mod/certificateuv/db" VERSION="20140928" COMMENT="XMLDB file for Moodle mod/certificateuv"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="certificate" COMMENT="Defines certificates">
+    <TABLE NAME="certificateuv" COMMENT="Defines certificates">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="course" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -43,7 +43,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="Primary key for certificate"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="certificate_issues" COMMENT="Info about issued certificates">
+    <TABLE NAME="certificateuv_issues" COMMENT="Info about issued certificates">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -56,7 +56,7 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="certificate_user" COMMENT="usuarios con permiso de descargar certificado ">
+    <TABLE NAME="certificateuv_user" COMMENT="usuarios con permiso de descargar certificado ">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
@@ -67,7 +67,7 @@
       </KEYS>
     </TABLE>
 
-    <TABLE NAME="certificate_course_permissio" COMMENT="cursos con permisos para generar certificados">
+    <TABLE NAME="certificateuv_course_perm" COMMENT="cursos con permisos para generar certificados">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>

@@ -18,7 +18,7 @@
 /**
  * Certificate module core interaction API
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,17 +29,17 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Add certificate instance.
  *
- * @param stdClass $certificate
+ * @param stdClass $certificateuv
  * @return int new certificate instance id
  */
-function certificate_add_instance($certificate) {
+function certificateuv_add_instance($certificate) {
     global $DB;
 
     // Create the certificate.
     $certificate->timecreated = time();
     $certificate->timemodified = $certificate->timecreated;
 
-    return $DB->insert_record('certificate', $certificate);
+    return $DB->insert_record('certificateuv', $certificate);
 }
 
 /**
@@ -48,14 +48,14 @@ function certificate_add_instance($certificate) {
  * @param stdClass $certificate
  * @return bool true
  */
-function certificate_update_instance($certificate) {
+function certificateuv_update_instance($certificate) {
     global $DB;
 
     // Update the certificate.
     $certificate->timemodified = time();
     $certificate->id = $certificate->instance;
 
-    return $DB->update_record('certificate', $certificate);
+    return $DB->update_record('certificateuv', $certificate);
 }
 
 /**
@@ -66,22 +66,22 @@ function certificate_update_instance($certificate) {
  * @param int $id
  * @return bool true if successful
  */
-function certificate_delete_instance($id) {
+function certificateuv_delete_instance($id) {
     global $DB;
 
     // Ensure the certificate exists
-    if (!$certificate = $DB->get_record('certificate', array('id' => $id))) {
+    if (!$certificate = $DB->get_record('certificateuv', array('id' => $id))) {
         return false;
     }
 
     // Prepare file record object
-    if (!$cm = get_coursemodule_from_instance('certificate', $id)) {
+    if (!$cm = get_coursemodule_from_instance('certificateuv', $id)) {
         return false;
     }
 
     $result = true;
-    $DB->delete_records('certificate_issues', array('certificateid' => $id));
-    if (!$DB->delete_records('certificate', array('id' => $id))) {
+    $DB->delete_records('certificateuv_issues', array('certificateuvid' => $id));
+    if (!$DB->delete_records('certificateuv', array('id' => $id))) {
         $result = false;
     }
 
@@ -103,35 +103,35 @@ function certificate_delete_instance($id) {
  * @param $data the data submitted from the reset course.
  * @return array status array
  */
-function certificate_reset_userdata($data) {
+function certificateuv_reset_userdata($data) {
     global $DB;
 
-    $componentstr = get_string('modulenameplural', 'certificate');
+    $componentstr = get_string('modulenameplural', 'certificateuv');
     $status = array();
 
     if (!empty($data->reset_certificate)) {
         $sql = "SELECT cert.id
-                  FROM {certificate} cert
+                  FROM {certificateuv} cert
                  WHERE cert.course = :courseid";
         $params = array('courseid' => $data->courseid);
         $certificates = $DB->get_records_sql($sql, $params);
         $fs = get_file_storage();
         if ($certificates) {
             foreach ($certificates as $certid => $unused) {
-                if (!$cm = get_coursemodule_from_instance('certificate', $certid)) {
+                if (!$cm = get_coursemodule_from_instance('certificateuv', $certid)) {
                     continue;
                 }
                 $context = context_module::instance($cm->id);
-                $fs->delete_area_files($context->id, 'mod_certificate', 'issue');
+                $fs->delete_area_files($context->id, 'mod_certificateuv', 'issue');
             }
         }
 
-        $DB->delete_records_select('certificate_issues', "certificateid IN ($sql)", $params);
-        $status[] = array('component' => $componentstr, 'item' => get_string('removecert', 'certificate'), 'error' => false);
+        $DB->delete_records_select('certificateuv_issues', "certificateuvid IN ($sql)", $params);
+        $status[] = array('component' => $componentstr, 'item' => get_string('removecert', 'certificateuv'), 'error' => false);
     }
     // Updating dates - shift may be negative too
     if ($data->timeshift) {
-        shift_course_mod_dates('certificate', array('timeopen', 'timeclose'), $data->timeshift, $data->courseid);
+        shift_course_mod_dates('certificateuv', array('timeopen', 'timeclose'), $data->timeshift, $data->courseid);
         $status[] = array('component' => $componentstr, 'item' => get_string('datechanged'), 'error' => false);
     }
 
@@ -146,9 +146,9 @@ function certificate_reset_userdata($data) {
  *
  * @param $mform form passed by reference
  */
-function certificate_reset_course_form_definition(&$mform) {
-    $mform->addElement('header', 'certificateheader', get_string('modulenameplural', 'certificate'));
-    $mform->addElement('advcheckbox', 'reset_certificate', get_string('deletissuedcertificates', 'certificate'));
+function certificateuv_reset_course_form_definition(&$mform) {
+    $mform->addElement('header', 'certificateuvheader', get_string('modulenameplural', 'certificateuv'));
+    $mform->addElement('advcheckbox', 'reset_certificateuv', get_string('deletissuedcertificateuvs', 'certificateuv'));
 }
 
 /**
@@ -159,8 +159,8 @@ function certificate_reset_course_form_definition(&$mform) {
  * @param stdClass $course
  * @return array
  */
-function certificate_reset_course_form_defaults($course) {
-    return array('reset_certificate' => 1);
+function certificateuv_reset_course_form_defaults($course) {
+    return array('reset_certificateuv' => 1);
 }
 
 /**
@@ -173,15 +173,15 @@ function certificate_reset_course_form_defaults($course) {
  * @param stdClass $certificate
  * @return stdClass the user outline object
  */
-function certificate_user_outline($course, $user, $mod, $certificate) {
+function certificateuv_user_outline($course, $user, $mod, $certificate) {
     global $DB;
 
     $result = new stdClass;
-    if ($issue = $DB->get_record('certificate_issues', array('certificateid' => $certificate->id, 'userid' => $user->id))) {
-        $result->info = get_string('issued', 'certificate');
+    if ($issue = $DB->get_record('certificateuv_issues', array('certificateuvid' => $certificate->id, 'userid' => $user->id))) {
+        $result->info = get_string('issued', 'certificateuv');
         $result->time = $issue->timecreated;
     } else {
-        $result->info = get_string('notissued', 'certificate');
+        $result->info = get_string('notissued', 'certificateuv');
     }
 
     return $result;
@@ -197,35 +197,35 @@ function certificate_user_outline($course, $user, $mod, $certificate) {
  * @param stdClass $certificate
  * @return string the user complete information
  */
-function certificate_user_complete($course, $user, $mod, $certificate) {
+function certificateuv_user_complete($course, $user, $mod, $certificate) {
     global $DB, $OUTPUT, $CFG;
-    require_once($CFG->dirroot.'/mod/certificate/locallib.php');
+    require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
 
-    if ($issue = $DB->get_record('certificate_issues', array('certificateid' => $certificate->id, 'userid' => $user->id))) {
+    if ($issue = $DB->get_record('certificateuv_issues', array('certificateuvid' => $certificate->id, 'userid' => $user->id))) {
         echo $OUTPUT->box_start();
-        echo get_string('issued', 'certificate') . ": ";
+        echo get_string('issued', 'certificateuv') . ": ";
         echo userdate($issue->timecreated);
-        $cm = get_coursemodule_from_instance('certificate', $certificate->id, $course->id);
-        certificate_print_user_files($certificate, $user->id, context_module::instance($cm->id)->id);
+        $cm = get_coursemodule_from_instance('certificateuv', $certificate->id, $course->id);
+        certificateuv_print_user_files($certificate, $user->id, context_module::instance($cm->id)->id);
         echo '<br />';
         echo $OUTPUT->box_end();
     } else {
-        print_string('notissuedyet', 'certificate');
+        print_string('notissuedyet', 'certificateuv');
     }
 }
 
 /**
  * Must return an array of user records (all data) who are participants
  * for a given instance of certificate.
- *
+ *OJOOOOOOOO
  * @param int $certificateid
  * @return stdClass list of participants
  */
-function certificate_get_participants($certificateid) {
+function certificateuv_get_participants($certificateid) {
     global $DB;
 
     $sql = "SELECT DISTINCT u.id, u.id
-              FROM {user} u, {certificate_issues} a
+              FROM {user} u, {certificateuv_issues} a
              WHERE a.certificateid = :certificateid
                AND u.id = a.userid";
     return  $DB->get_records_sql($sql, array('certificateid' => $certificateid));
@@ -242,7 +242,7 @@ function certificate_get_participants($certificateid) {
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed True if module supports feature, null if doesn't know
  */
-function certificate_supports($feature) {
+function certificateuv_supports($feature) {
     switch ($feature) {
         case FEATURE_GROUPS:                  return true;
         case FEATURE_GROUPINGS:               return true;
@@ -257,7 +257,7 @@ function certificate_supports($feature) {
 
 /**
  * Serves certificate issues and other files.
- *
+ * ojoooooooo
  * @param stdClass $course
  * @param stdClass $cm
  * @param stdClass $context
@@ -266,14 +266,14 @@ function certificate_supports($feature) {
  * @param bool $forcedownload
  * @return bool|nothing false if file not found, does not return anything if found - just send the file
  */
-function certificate_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
+function certificateuv_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $CFG, $DB, $USER;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
         return false;
     }
 
-    if (!$certificate = $DB->get_record('certificate', array('id' => $cm->instance))) {
+    if (!$certificate = $DB->get_record('certificateuv', array('id' => $cm->instance))) {
         return false;
     }
 
@@ -283,18 +283,18 @@ function certificate_pluginfile($course, $cm, $context, $filearea, $args, $force
 
     $certrecord = (int)array_shift($args);
 
-    if (!$certrecord = $DB->get_record('certificate_issues', array('id' => $certrecord))) {
+    if (!$certrecord = $DB->get_record('certificateuv_issues', array('id' => $certrecord))) {
         return false;
     }
 
-    $canmanagecertificate = has_capability('mod/certificate:manage', $context);
+    $canmanagecertificate = has_capability('mod/certificateuv:manage', $context);
     if ($USER->id != $certrecord->userid and !$canmanagecertificate) {
         return false;
     }
 
     if ($filearea === 'issue') {
         $relativepath = implode('/', $args);
-        $fullpath = "/{$context->id}/mod_certificate/issue/$certrecord->id/$relativepath";
+        $fullpath = "/{$context->id}/mod_certificateuv/issue/$certrecord->id/$relativepath";
 
         $fs = get_file_storage();
         if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
@@ -302,22 +302,22 @@ function certificate_pluginfile($course, $cm, $context, $filearea, $args, $force
         }
         send_stored_file($file, 0, 0, true); // download MUST be forced - security!
     } else if ($filearea === 'onthefly') {
-        require_once($CFG->dirroot.'/mod/certificate/locallib.php');
+        require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
         require_once("$CFG->libdir/pdflib.php");
 
-        if (!$certificate = $DB->get_record('certificate', array('id' => $certrecord->certificateid))) {
+        if (!$certificate = $DB->get_record('certificateuv', array('id' => $certrecord->certificateid))) {
             return false;
         }
 
         if ($certificate->requiredtime && !$canmanagecertificate) {
-            if (certificate_get_course_time($course->id) < ($certificate->requiredtime * 60)) {
+            if (certificateuv_get_course_time($course->id) < ($certificate->requiredtime * 60)) {
                 return false;
             }
         }
 
         // Load the specific certificate type. It will fill the $pdf var.
-        require("$CFG->dirroot/mod/certificate/type/$certificate->certificatetype/certificate.php");
-        $filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.pdf';
+        require("$CFG->dirroot/mod/certificateuv/type/$certificate->certificatetype/certificate.php");
+        $filename = certificateuv_get_certificate_filename($certificate, $cm, $course) . '.pdf';
         $filecontents = $pdf->Output('', 'S');
         send_file($filecontents, $filename, 0, 0, true, true, 'application/pdf');
     }
@@ -328,7 +328,7 @@ function certificate_pluginfile($course, $cm, $context, $filearea, $args, $force
  *
  * @return array
  */
-function certificate_get_view_actions() {
+function certificateuv_get_view_actions() {
     return array('view', 'view all', 'view report');
 }
 
@@ -337,7 +337,7 @@ function certificate_get_view_actions() {
  *
  * @return array
  */
-function certificate_get_post_actions() {
+function certificateuv_get_post_actions() {
     return array('received');
 }
 
@@ -345,7 +345,7 @@ function certificate_get_post_actions() {
 /**
 *Usada para traer el nombre del profesor(tutor) que va a firmar
 */
-function certificate_get_teacher_signature($id_user) {
+function certificateuv_get_teacher_signature($id_user) {
     global $DB;
     $result=$DB->get_records_sql("SELECT mdl_user.id,
         mdl_user.firstname,
@@ -363,7 +363,7 @@ function certificate_get_teacher_signature($id_user) {
 /*
 *retorna los usuarios matriculados en un curso
 */
-function certificate_get_user_course($id){
+function certificateuv_get_user_course($id){
 
     global $DB;
     $sql="SELECT 
@@ -393,7 +393,7 @@ function certificate_get_user_course($id){
 *Usada para obtener los profesores pertenecientes a un curso
 * @return array
 */
-function certificate_get_teachers_course($id_course) {
+function certificateuv_get_teachers_course($id_course) {
     global $DB;
 
     $result=$DB->get_records_sql("SELECT mdl_user.id,
@@ -426,10 +426,10 @@ function certificate_get_teachers_course($id_course) {
 * @param int $id
 * @return boolean
 */
-function certificate_get_permission_user($userid,$courseid){
+function certificateuv_get_permission_user($userid,$courseid){
     global $DB;
     
-    $sql="select * from {certificate_user} where userid=? and courseid=?";
+    $sql="select * from {certificateuv_user} where userid=? and courseid=?";
     
     $result = $DB->get_record_sql($sql, array($userid,$courseid));
     
@@ -444,13 +444,13 @@ function certificate_get_permission_user($userid,$courseid){
 /**
 * cambia el permiso de un usuario para obtener certificado
 **/
-function certificate_change_user_permission($userid,$courseid,$option){
+function certificateuv_change_user_permission($userid,$courseid,$option){
 
     global $DB;
 
     if ($option == "delete") {
     
-        $DB->delete_records('certificate_user', array("userid"=>$userid, "courseid"=> $courseid));
+        $DB->delete_records('certificateuv_user', array("userid"=>$userid, "courseid"=> $courseid));
 
     }
     elseif($option == "insert"){
@@ -458,17 +458,17 @@ function certificate_change_user_permission($userid,$courseid,$option){
         $record = new stdClass();
         $record->userid = $userid;
         $record->courseid = $courseid;
-        $lastinsertid = $DB->insert_record('certificate_user', $record, false);
+        $lastinsertid = $DB->insert_record('certificateuv_user', $record, false);
     }
 }
 
 /**
 * verifica si el curso tiene permisos para generar certificados
 */
-function certificate_course_permission($courseid){
+function certificateuv_course_permission($courseid){
     global $DB;
 
-    $sql="select * from {certificate_course_permissio} where courseid=?";
+    $sql="select * from {certificateuv_course_perm} where courseid=?";
     
     $result = $DB->get_record_sql($sql, array($courseid));
         
@@ -485,10 +485,10 @@ function certificate_course_permission($courseid){
 /**
 *retorna el nombre de la plantilla preestablecida para el certificado, si no existe retorna por defecto la de la dintev
 */
-function certificate_get_type_template($courseid){
+function certificateuv_get_type_template($courseid){
     global $DB;
 
-    $sql="select template_certificate from {certificate_course_permissio} where courseid=?";
+    $sql="select template_certificate from {certificateuv_course_perm} where courseid=?";
     
     $result = $DB->get_record_sql($sql, array($courseid));
     

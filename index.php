@@ -18,7 +18,7 @@
 /**
  * This page lists all the instances of certificate in a particular course
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -42,29 +42,29 @@ $printsection = "";
 $timenow = time();
 
 // Strings used multiple times
-$strcertificates = get_string('modulenameplural', 'certificate');
-$strissued  = get_string('issued', 'certificate');
+$strcertificates = get_string('modulenameplural', 'certificateuv');
+$strissued  = get_string('issued', 'certificateuv');
 $strname  = get_string("name");
 $strsectionname = get_string('sectionname', 'format_'.$course->format);
 
 // Print the header
 $PAGE->set_pagelayout('incourse');
-$PAGE->set_url('/mod/certificate/index.php', array('id'=>$course->id));
+$PAGE->set_url('/mod/certificateuv/index.php', array('id'=>$course->id));
 $PAGE->navbar->add($strcertificates);
 $PAGE->set_title($strcertificates);
 $PAGE->set_heading($course->fullname);
 
 // Add the page view to the Moodle log
-$event = \mod_certificate\event\course_module_instance_list_viewed::create(array(
+$event = \mod_certificateuv\event\course_module_instance_list_viewed::create(array(
     'context' => context_course::instance($course->id)
 ));
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
 // Get the certificates, if there are none display a notice
-if (!$certificates = get_all_instances_in_course('certificate', $course)) {
+if (!$certificates = get_all_instances_in_course('certificateuv', $course)) {
     echo $OUTPUT->header();
-    notice(get_string('nocertificates', 'certificate'), "$CFG->wwwroot/course/view.php?id=$course->id");
+    notice(get_string('nocertificates', 'certificateuv'), "$CFG->wwwroot/course/view.php?id=$course->id");
     echo $OUTPUT->footer();
     exit();
 }
@@ -83,11 +83,11 @@ foreach ($certificates as $certificate) {
     if (!$certificate->visible) {
         // Show dimmed if the mod is hidden
         $link = html_writer::tag('a', $certificate->name, array('class' => 'dimmed',
-            'href' => $CFG->wwwroot . '/mod/certificate/view.php?id=' . $certificate->coursemodule));
+            'href' => $CFG->wwwroot . '/mod/certificateuv/view.php?id=' . $certificate->coursemodule));
     } else {
         // Show normal if the mod is visible
         $link = html_writer::tag('a', $certificate->name, array('class' => 'dimmed',
-            'href' => $CFG->wwwroot . '/mod/certificate/view.php?id=' . $certificate->coursemodule));
+            'href' => $CFG->wwwroot . '/mod/certificateuv/view.php?id=' . $certificate->coursemodule));
     }
 
     $strsection = '';
@@ -102,10 +102,10 @@ foreach ($certificates as $certificate) {
     }
 
     // Get the latest certificate issue
-    if ($certrecord = $DB->get_record('certificate_issues', array('userid' => $USER->id, 'certificateid' => $certificate->id))) {
+    if ($certrecord = $DB->get_record('certificateuv_issues', array('userid' => $USER->id, 'certificateuvid' => $certificate->id))) {
         $issued = userdate($certrecord->timecreated);
     } else {
-        $issued = get_string('notreceived', 'certificate');
+        $issued = get_string('notreceived', 'certificateuv');
     }
 
     if ($usesections) {

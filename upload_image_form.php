@@ -18,7 +18,7 @@
 /**
  * Handles uploading files
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,9 +28,9 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 require_once($CFG->libdir.'/formslib.php');
-require_once($CFG->dirroot.'/mod/certificate/locallib.php');
+require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
 
-class mod_certificate_upload_image_form extends moodleform {
+class mod_certificateuv_upload_image_form extends moodleform {
 
     function definition() {
         global $CFG;
@@ -38,13 +38,13 @@ class mod_certificate_upload_image_form extends moodleform {
         $mform =& $this->_form;
 
         $imagetypes = array(
-            CERT_IMAGE_BORDER => get_string('border', 'certificate'),
-            CERT_IMAGE_WATERMARK => get_string('watermark', 'certificate'),
-            CERT_IMAGE_SIGNATURE => get_string('signature', 'certificate'),
-            CERT_IMAGE_SEAL => get_string('seal', 'certificate')
+            CERT_IMAGE_BORDER => get_string('border', 'certificateuv'),
+            CERT_IMAGE_WATERMARK => get_string('watermark', 'certificateuv'),
+            CERT_IMAGE_SIGNATURE => get_string('signature', 'certificateuv'),
+            CERT_IMAGE_SEAL => get_string('seal', 'certificateuv')
         );
 
-        $mform->addElement('select', 'imagetype', get_string('imagetype', 'certificate'), $imagetypes);
+        $mform->addElement('select', 'imagetype', get_string('imagetype', 'certificateuv'), $imagetypes);
 
         $mform->addElement('filepicker', 'certificateimage', '');
         $mform->addRule('certificateimage', null, 'required', null, 'client');
@@ -71,11 +71,11 @@ class mod_certificate_upload_image_form extends moodleform {
         if ($files) {
             foreach ($files as $file) {
                 if (!in_array($file->get_mimetype(), $supportedtypes)) {
-                    $errors['certificateimage'] = get_string('unsupportedfiletype', 'certificate');
+                    $errors['certificateimage'] = get_string('unsupportedfiletype', 'certificateuv');
                 }
             }
         } else {
-            $errors['certificateimage'] = get_string('nofileselected', 'certificate');
+            $errors['certificateimage'] = get_string('nofileselected', 'certificateuv');
         }
 
         return $errors;

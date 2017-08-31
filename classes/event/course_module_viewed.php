@@ -24,13 +24,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_certificate\event;
+namespace mod_certificateuv\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 class course_module_viewed extends \core\event\course_module_viewed {
     protected function init() {
-        $this->data['objecttable'] = 'certificate';
+        $this->data['objecttable'] = 'certificateuv';
         parent::init();
     }
 }

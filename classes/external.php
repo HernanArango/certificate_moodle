@@ -36,7 +36,7 @@ require_once($CFG->dirroot . '/mod/certificate/locallib.php');
  * @copyright  2015 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_certificate_external extends external_api {
+class mod_certificateuv_external extends external_api {
 
     /**
      * Describes the parameters for get_certificates_by_courses.
@@ -95,16 +95,16 @@ class mod_certificate_external extends external_api {
                 $module['name']  = external_format_string($certificate->name, $context->id);
 
                 $viewablefields = [];
-                if (has_capability('mod/certificate:view', $context)) {
+                if (has_capability('mod/certificateuv:view', $context)) {
                     list($module['intro'], $module['introformat']) =
                         external_format_text($certificate->intro, $certificate->introformat, $context->id,
-                                                'mod_certificate', 'intro', $certificate->id);
+                                                'mod_certificateuv', 'intro', $certificate->id);
 
                     // Check certificate requeriments for current user.
                     $viewablefields[] = 'requiredtime';
                     $module['requiredtimenotmet'] = 0;
-                    if ($certificate->requiredtime && !has_capability('mod/certificate:manage', $context)) {
-                        if (certificate_get_course_time($certificate->course) < ($certificate->requiredtime * 60)) {
+                    if ($certificate->requiredtime && !has_capability('mod/certificateuv:manage', $context)) {
+                        if (certificateuv_get_course_time($certificate->course) < ($certificate->requiredtime * 60)) {
                             $module['requiredtimenotmet'] = 1;
                         }
                     }
@@ -223,11 +223,11 @@ class mod_certificate_external extends external_api {
 
         // Request and permission validation.
         $certificate = $DB->get_record('certificate', array('id' => $params['certificateid']), '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($certificate, 'certificate');
+        list($course, $cm) = get_course_and_cm_from_instance($certificate, 'certificateuv');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
-        require_capability('mod/certificate:view', $context);
+        require_capability('mod/certificateuv:view', $context);
 
         $event = \mod_certificate\event\course_module_viewed::create(array(
             'objectid' => $certificate->id,
@@ -269,19 +269,19 @@ class mod_certificate_external extends external_api {
     private static function check_can_issue($certificateid) {
         global $DB;
 
-        $certificate = $DB->get_record('certificate', array('id' => $certificateid), '*', MUST_EXIST);
+        $certificate = $DB->get_record('certificateuv', array('id' => $certificateid), '*', MUST_EXIST);
         list($course, $cm) = get_course_and_cm_from_instance($certificate, 'certificate');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
-        require_capability('mod/certificate:view', $context);
+        require_capability('mod/certificateuv:view', $context);
 
         // Check if the user can view the certificate.
-        if ($certificate->requiredtime && !has_capability('mod/certificate:manage', $context)) {
-            if (certificate_get_course_time($course->id) < ($certificate->requiredtime * 60)) {
+        if ($certificate->requiredtime && !has_capability('mod/certificateuv:manage', $context)) {
+            if (certificateuv_get_course_time($course->id) < ($certificate->requiredtime * 60)) {
                 $a = new stdClass();
                 $a->requiredtime = $certificate->requiredtime;
-                throw new moodle_exception('requiredtimenotmet', 'certificate', '', $a);
+                throw new moodle_exception('requiredtimenotmet', 'certificateuv', '', $a);
             }
         }
         return array($certificate, $course, $cm, $context);
@@ -322,15 +322,15 @@ class mod_certificate_external extends external_api {
 
         // Grade data.
         if ($certificate->printgrade) {
-            $issue->grade = certificate_get_grade($certificate, $course);
+            $issue->grade = certificateuv_get_grade($certificate, $course);
         }
 
         // File data.
         $issue->mimetype = 'application/pdf';
-        $issue->filename = certificate_get_certificate_filename($certificate, $cm, $course) . '.pdf';
+        $issue->filename = certificateuv_get_certificate_filename($certificate, $cm, $course) . '.pdf';
         // We need to use a special file area to be able to download certificates (in most cases are not stored in the site).
         $issue->fileurl = moodle_url::make_webservice_pluginfile_url(
-                                $context->id, 'mod_certificate', 'onthefly', $issue->id, '/', $issue->filename)->out(false);
+                                $context->id, 'mod_certificateuv', 'onthefly', $issue->id, '/', $issue->filename)->out(false);
     }
 
     /**

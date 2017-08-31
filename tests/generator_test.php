@@ -16,7 +16,7 @@
 /**
  * Certificate module data generator.
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @category   test
  * @author     Russell England <russell.england@catalyst-eu.net>
  * @copyright  Catalyst IT Ltd 2013 <http://catalyst-eu.net>
@@ -25,29 +25,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_certificate_generator_testcase extends advanced_testcase {
+class mod_certificateuv_generator_testcase extends advanced_testcase {
     public function test_generator() {
         global $DB;
 
         $this->resetAfterTest(true);
 
-        $this->assertEquals(0, $DB->count_records('certificate'));
+        $this->assertEquals(0, $DB->count_records('certificateuv'));
 
         $course = $this->getDataGenerator()->create_course();
 
         /** @var mod_certificate_generator $generator */
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_certificate');
-        $this->assertInstanceOf('mod_certificate_generator', $generator);
-        $this->assertEquals('certificate', $generator->get_modulename());
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_certificateuv');
+        $this->assertInstanceOf('mod_certificateuv_generator', $generator);
+        $this->assertEquals('certificateuv', $generator->get_modulename());
 
         $generator->create_instance(array('course' => $course->id));
         $generator->create_instance(array('course' => $course->id));
         $certificate = $generator->create_instance(array('course' => $course->id));
-        $this->assertEquals(3, $DB->count_records('certificate'));
+        $this->assertEquals(3, $DB->count_records('certificateuv'));
 
-        $cm = get_coursemodule_from_instance('certificate', $certificate->id);
+        $cm = get_coursemodule_from_instance('certificateuv', $certificate->id);
         $this->assertEquals($certificate->id, $cm->instance);
-        $this->assertEquals('certificate', $cm->modname);
+        $this->assertEquals('certificateuv', $cm->modname);
         $this->assertEquals($course->id, $cm->course);
 
         $context = context_module::instance($cm->id);

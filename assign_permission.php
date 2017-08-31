@@ -1,6 +1,6 @@
 <?php
 
-// This file is part of the Certificate module for Moodle - http://moodle.org/
+// This file is part of the certificateuv module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 /**
  * 
  *
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @copyright  Hernan Arango <hernan.arango@correounivalle.edu.co>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -33,7 +33,7 @@ $option = required_param('option', PARAM_ALPHA);
 
 
 
-certificate_change_user_permission($userid,$courseid,$option);
+certificateuv_change_user_permission($userid,$courseid,$option);
 
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
