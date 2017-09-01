@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 
 $pdf = new PDF($certificate->orientation, 'mm', 'A4', true, 'UTF-8', false);
 
+//Hecho por Hernan
+$meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+
 $pdf->SetTitle($certificate->name);
 $pdf->SetProtection(array('modify'));
 $pdf->setPrintHeader(false);
@@ -94,9 +97,13 @@ certificateuv_print_text($pdf, $x, $y + 35, 'C', $fontsans, 'B', 17, "Certifica 
 certificateuv_print_text($pdf, $x, $y + 45, 'C', $fontsans, 'B', 25, format_string($USER->firstname)." ".format_string($USER->lastname));
 certificateuv_print_text($pdf, $x, $y + 53, 'C', $fontsans, '', 22, format_string($USER->username));
 
+//date prueba
+$monthStartNum = date('m',format_string($certificate->timestartcourse));
+$monthEndNum = date('m',format_string($certificate->timefinalcourse));
+
 //Print Date
-setlocale(LC_TIME,"es_ES");
-certificateuv_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".date('M',format_string($certificate->timestartcourse))." al ".date('d',format_string($certificate->timefinalcourse))." de ".date('M',format_string($certificate->timefinalcourse))." de ".date('Y',format_string($certificate->timefinalcourse)));
+setlocale(LC_ALL,"es_ES");
+certificateuv_print_text($pdf, $x, $y + 70, 'C', $fontsans, 'B', 17, "Entre el ".date('d',format_string($certificate->timestartcourse))." de ".$meses[$monthStartNum-1]." al ".date('d',format_string($certificate->timefinalcourse))." de ".$meses[$monthEndNum-1]." de ".date('Y',format_string($certificate->timefinalcourse)));
 
 //Print Certification to course/name course
 certificateuv_print_text($pdf, $x, $y + 80, 'C', $fontsans, 'B', 20, get_string('statement', 'certificateuv'));
@@ -109,18 +116,18 @@ certificateuv_print_text($pdf, $x, $y + 115, 'C', $fontsans, 'B', 17,"con una in
 certificateuv_print_text($pdf, $x, $y + 125, 'C', $fontsans, '', 12,"Santiago de Cali - Colombia");
 
 //Print Student Name
-certificateuv_print_text($pdf, 5, 200, 'L', $fontserif, '', 10, format_string($certificate->nameteacher));
+certificateuv_print_text($pdf, 5, 200, 'L', $fontsans, '', 10, format_string($certificate->nameteacher));
 
 //Load image and name teacher/tutor
-$path_tutor="$CFG->dirroot/mod/certificateuv/pix/signatures/".$USER->username.".png";
+$path_tutor="$CFG->dirroot/mod/certificateuv/pix/signatures/".certificateuv_get_username_by_id($certificate->idteacher).".png";
 $pdf->Image($path_tutor,$sigx,$sigy-5,50);
-certificateuv_print_text($pdf, 50, 180, 'L', $fontserif, '', 10, certificateuv_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
+certificateuv_print_text($pdf, 50, 180, 'L', $fontsans, '', 10, certificateuv_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
 
 //Load image and name Director
 //Firma Director
 $path_director="$CFG->dirroot/mod/certificateuv/pix/signatures/directora.png";
 $pdf->Image($path_director,200,$sigy-5,50);
-certificateuv_print_text($pdf, 200, 180, 'L', $fontserif, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
+certificateuv_print_text($pdf, 200, 180, 'L', $fontsans, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
 
 //Load QR Code
-//$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.format_string($USER->firstname)."-".format_string($course->fullname).'&.png',140,170,20);
+$pdf->Image('https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
