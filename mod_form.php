@@ -56,7 +56,7 @@ class mod_certificateuv_mod_form extends moodleform_mod {
         //Profesores del curso   
         $mform->addElement('select', 'idteacher', get_string('teachertosign', 'certificateuv'), certificateuv_get_teachers_course($course->id));
         $mform->setDefault('idteacher', '0');
-        $mform->addHelpButton('teachertosign', 'teachertosign', 'certificateuv');
+        $mform->addHelpButton('idteacher', 'teachertosign', 'certificateuv');
         $mform->addRule('idteacher', null, 'required', null, 'client');
 
 
