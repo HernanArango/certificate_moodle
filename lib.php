@@ -471,7 +471,7 @@ function certificateuv_course_permission($courseid){
     $sql="select * from {certificateuv_course_perm} where courseid=?";
     
     $result = $DB->get_record_sql($sql, array($courseid));
-        
+ 
     if ($result) {
         return true;
     }

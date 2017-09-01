@@ -209,3 +209,7 @@ $string['viewcertificateviews'] = 'Ver {$a} certificados emitidos';
 $string['viewed'] = 'Usted recibió este certificado en:';
 $string['viewtranscript'] = 'Ver certificados';
 $string['watermark'] = 'Marca de agua';
+$string['datestartcourse'] = 'Fecha Inicial';
+$string['dateendcourse'] = 'Fecha Final';
+$string['teachertosign'] = 'Profesor a firmar';
+$string['teachertosign_help'] = 'Seleccione el profesor que aparecerá como firmante en el certificado, recuerde que la firma de este docente debe estar digitalizada, si no lo ha hecho por favor dirijase a la DINTEV';
