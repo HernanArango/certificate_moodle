@@ -132,7 +132,7 @@ if (empty($action)) { // Not displaying PDF
 
     if(certificateuv_course_permission($cm->course)){
 
-            $disponibilidad_certificado = certificateuv_get_permission_user($USER->id, $course->id);
+            $disponibilidad_certificado = certificateuv_get_permission_user($USER->id, $certificate->id);
 
             if ($disponibilidad_certificado){
             	if ($attempts = certificateuv_get_attempts($certificate->id)) {
@@ -158,7 +158,7 @@ if (empty($action)) { // Not displaying PDF
                 //role profesor
                 if($role->roleid == 3){
                     //añadir button de asignar permisos
-                    $link = new moodle_url('/mod/certificateuv/user.php?id='.$course->id.'&certicateid='.$cm->id);
+                    $link = new moodle_url('/mod/certificateuv/user.php?id='.$cm->id);
                     $button = new single_button($link, "Asignar Permisos");
                     echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));
                     break;        

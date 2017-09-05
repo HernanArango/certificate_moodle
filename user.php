@@ -28,31 +28,24 @@ require_once('lib.php');
 
 require_login($course, false, $cm);
 
-$idCourse= required_param('id', PARAM_INT);    // Course Module ID
-$certicateid= required_param('certicateid', PARAM_INT);    // Course Module ID
+$id = required_param('id', PARAM_INT);    // Course Module ID
+
 
 // Course Module ID
-/*if (!$cm = get_coursemodule_from_id('certificate', $id)) {
+if (!$cm = get_coursemodule_from_id('certificateuv', $id)) {
     print_error('Course Module ID was incorrect'); // NOTE this is invalid use of print_error, must be a lang string id
 }
 if (!$course = $DB->get_record('course', array('id'=> $cm->course))) {
     print_error('course is misconfigured');  // NOTE As above
 }
-if (!$certificate = $DB->get_record('certificate', array('id'=> $cm->instance))) {
+if (!$certificate = $DB->get_record('certificateuv', array('id'=> $cm->instance))) {
     print_error('course module is incorrect'); // NOTE As above
-}*/
-
-
-//$certificate = $DB->get_record('certificate', array('id'=> $idCertificado));
-//idcourse
-//$id =$certificate->id;
-
-
+}
 
 
 $PAGE->set_url('/mod/certificateuv/view.php', array('id' => $cm->id));
 
-$PAGE->set_title(format_string("name"));
+$PAGE->set_title(format_string("Asignar Permisos"));
 $PAGE->set_heading(format_string("fullname"));
 //$PAGE->navbar->add("Cursos Demo");
 
@@ -68,6 +61,7 @@ echo $OUTPUT->header();
     $table = new html_table();
     $table->classes = array('logtable','generaltable');
     $table->head = array(
+        "Imagen",
         "Código",
         "Nombre",
         "Opción"
@@ -75,21 +69,22 @@ echo $OUTPUT->header();
     );
     $table->data = array();			
 
-	$result = certificateuv_get_user_course($idCourse);
+	$result = certificateuv_get_user_course($course->id);
 	
 	//global $CFG;
 	foreach ($result as $key => $obj) {
 		$row=array();
-		$row[]=$obj->username;
-		$row[]="<a href='$CFG->wwwroot/user/view.php?id=$obj->userid'>".$obj->fullname."</a>";
-		//$row[]="<input type='checkbox' class='checkoption' name='checkoption' userid='$obj->userid' courseid='$obj->courseid' >";
+		$row[]= $OUTPUT->user_picture($obj, array('size'=>50));
+		$row[]= $obj->username;
+		$row[]= $obj->firstname." ".$lastname;
 		
-		if(certificateuv_get_permission_user($obj->userid,$obj->courseid)){
+		
+		if(certificateuv_get_permission_user($obj->id,$certificate->id)){
 			
-			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->userid' courseid='$obj->courseid' checked>";
+			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->id' certificateid='$certificate->id' checked>";
 		}
 		else{
-			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->userid' courseid='$obj->courseid' >";
+			$row[]="<input type='checkbox' class='checkoption'  userid='$obj->id' certificateid='$certificate->id' >";
 			
 		}
 		$table->data[] = $row;
@@ -98,7 +93,7 @@ echo "<div class='box generalbox boxaligncenter boxwidthnormal'>";
 echo html_writer::table($table);
 echo "</div>";
 
-$url = new moodle_url('/mod/certificateuv/view.php?id='.$certicateid);
+$url = new moodle_url('/mod/certificateuv/view.php?id='.$id);
 $button = new single_button($url, "Volver");
 echo html_writer::tag('div', $OUTPUT->render($button), array('style' => 'text-align:center'));	
 

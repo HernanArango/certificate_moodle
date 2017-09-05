@@ -28,12 +28,12 @@ require_once('lib.php');
 
 //require_login($course, false, $cm);
 $userid = required_param('userid', PARAM_INT);    
-$courseid = required_param('courseid', PARAM_INT);   
+$certificateid = required_param('certificateid', PARAM_INT);   
 $option = required_param('option', PARAM_ALPHA);    
 
 
 
-certificateuv_change_user_permission($userid,$courseid,$option);
+certificateuv_change_user_permission($userid,$certificateid,$option);
 
  
 /*if (!$cm = get_coursemodule_from_id('certificate', $id)) {

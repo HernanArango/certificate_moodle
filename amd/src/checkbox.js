@@ -4,7 +4,7 @@ define(['jquery'], function($) {
         init: function(id) {
             
             $('.checkoption').change(function(){
-                var courseid = $(this).attr('courseid');
+                var certificateid = $(this).attr('certificateid');
                 var userid = $(this).attr('userid');
 
                 var option =""
@@ -19,7 +19,7 @@ define(['jquery'], function($) {
                     
                 }
 
-                $.post( "assign_permission.php",{"userid": userid, "courseid":courseid, "option":option}, function( data ) {
+                $.post( "assign_permission.php",{"userid": userid, "certificateid":certificateid, "option":option}, function( data ) {
                   $( ".result" ).html( data );
                 });
                 

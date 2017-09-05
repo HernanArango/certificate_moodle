@@ -367,10 +367,7 @@ function certificateuv_get_user_course($id){
 
     global $DB;
     $sql="SELECT 
-      mdl_user.id as userid,
-      mdl_user.username,
-      mdl_user.firstname, 
-      mdl_user.lastname, 
+      mdl_user.*,
       mdl_course.fullname,
       mdl_course.id as courseid
       
@@ -426,12 +423,12 @@ function certificateuv_get_teachers_course($id_course) {
 * @param int $id
 * @return boolean
 */
-function certificateuv_get_permission_user($userid,$courseid){
+function certificateuv_get_permission_user($userid,$certificateid){
     global $DB;
     
-    $sql="select * from {certificateuv_user} where userid=? and courseid=?";
+    $sql="select * from {certificateuv_user_perm} where userid=? and certificateid=?";
     
-    $result = $DB->get_record_sql($sql, array($userid,$courseid));
+    $result = $DB->get_record_sql($sql, array($userid,$certificateid));
     
     if($result){
         return true;
@@ -444,21 +441,21 @@ function certificateuv_get_permission_user($userid,$courseid){
 /**
 * cambia el permiso de un usuario para obtener certificado
 **/
-function certificateuv_change_user_permission($userid,$courseid,$option){
+function certificateuv_change_user_permission($userid,$certificateid,$option){
 
     global $DB;
 
     if ($option == "delete") {
     
-        $DB->delete_records('certificateuv_user', array("userid"=>$userid, "courseid"=> $courseid));
+        $DB->delete_records('certificateuv_user_perm', array("userid"=>$userid, "certificateid"=> $certificateid));
 
     }
     elseif($option == "insert"){
         
         $record = new stdClass();
         $record->userid = $userid;
-        $record->courseid = $courseid;
-        $lastinsertid = $DB->insert_record('certificateuv_user', $record, false);
+        $record->certificateid = $certificateid;
+        $lastinsertid = $DB->insert_record('certificateuv_user_perm', $record, false);
     }
 }
 

@@ -131,5 +131,5 @@ certificateuv_print_text($pdf, 200, 180, 'L', $fontsans, '', 10, " Gloria Isabel
 
 //Load QR Code
 
-$pdf->Image('http://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
+//$pdf->Image('http://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
 
