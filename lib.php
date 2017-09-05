@@ -501,3 +501,41 @@ function certificateuv_get_type_template($courseid){
     }   
 
 }
+
+/**
+*Codigo de verificación para generar QR.
+*/
+function certificateuv_get_qrcode($userid,$certificateid){
+    global $DB;
+
+    $sql="select code from {certificateuv_issues} where userid=? and certificateid=?";
+    
+    $result = $DB->get_record_sql($sql, array($userid,$certificateid));
+    
+    
+    if ($result) {
+        return $result->code;
+    }
+    else{
+        return false;
+    }   
+
+}
+
+function certificateuv_get_username_by_id($userid){
+    global $DB;
+
+    $sql="select username from {user} where id=?";
+    
+    $result = $DB->get_record_sql($sql, array($userid));
+    
+    
+    if ($result) {
+        return $result->username;
+    }
+    else{
+        return false;
+    }   
+
+}
+
