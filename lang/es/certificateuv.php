@@ -40,7 +40,7 @@ $string['bordercolor_help'] = 'Dado que las imágenes pueden aumentar sustancial
 $string['bordergreen'] = 'Verde';
 $string['borderlines'] = 'Líneas';
 $string['borderstyle'] = 'Imagen del borde';
-$string['borderstyle_help'] = 'La opción de imagen del borde le permite elegir una imagen para el borde entre las que están en la carpeta certificate/pix/borders. Elija la imagen del borde que desee que aparezca alrededor de las orillas del certificado o seleccione sin borde.';
+$string['borderstyle_help'] = 'La opción de imagen del borde le permite elegir una imagen para el borde entre las que están en la carpeta certificateuv/pix/borders. Elija la imagen del borde que desee que aparezca alrededor de las orillas del certificado o seleccione sin borde.';
 $string['certificate'] = 'Verificación del código de certificado::';
 $string['certificate:addinstance'] = 'Añada una instancia de certificado';
 $string['certificate:manage'] = 'Administrar una instancia de certificado';
@@ -58,7 +58,7 @@ Carta no-incrustado imprime en papel tamaño carta sin tipos de letra incrustado
 
 Los tipos de diseño no-incrustados emplean los tipos de letra Helvetica y Times. Si usted cree que sus usuarios no tiene instalados estos tipos de letra en sus ordenadores, o si su idioma emplea caracteres y símbolos que no están incluidos en los tipos de letra Helvetica y Times, entonces debe elegir tipos incrustados. Los tipos de diseños  incrustados usan los tipos de letra Dejavusans y Dejavuserif. Esto hará que los archivos PDF sean bastante grandes; por eso no se recomienda emplear una variedad incrustada a menos que realmente la necesite.
 
-Se pueden añadir carpetas con nuevos tipos de letra en la carpeta de certificate/type. El nombre de la carpeta y cualquier cadena de idioma nueva deberán añadirse al archivo de idioma del certificado.';
+Se pueden añadir carpetas con nuevos tipos de letra en la carpeta de certificateuv/type. El nombre de la carpeta y cualquier cadena de idioma nueva deberán añadirse al archivo de idioma del certificado.';
 $string['certificate:view'] = 'Ver un certificado';
 $string['certify'] = 'Hace constar que';
 $string['code'] = 'Código';
@@ -123,7 +123,7 @@ $string['landscape'] = 'Apaisado';
 $string['lastviewed'] = 'Usted recibió este certificado por última vez en:';
 $string['letter'] = 'Carta';
 $string['lockingoptions'] = 'Opciones de bloqueo';
-$string['modulename'] = 'CertificateUV';
+$string['modulename'] = 'CertificadoUV';
 $string['modulename_help'] = 'Este módulo permite generar certificados dinámicamente, recuerde que esta función debe ser autorizada por la Dirección De Nuevas Tecnologías (DINTEV)';
 $string['mycertificates'] = 'Mis certificados';
 $string['nocertificates'] = 'No hay certificados';
