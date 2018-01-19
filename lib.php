@@ -366,21 +366,21 @@ function certificateuv_get_teacher_signature($id_user) {
 function certificateuv_get_user_course($id){
 
     global $DB;
-    $sql="SELECT 
+    $sql="SELECT
       mdl_user.*,
       mdl_course.fullname,
       mdl_course.id as courseid
-      
-    FROM 
-      public.mdl_user, 
-      public.mdl_user_enrolments, 
-      public.mdl_course, 
+
+    FROM
+      public.mdl_user,
+      public.mdl_user_enrolments,
+      public.mdl_course,
       public.mdl_enrol
-    WHERE 
+    WHERE
       mdl_user.id = mdl_user_enrolments.userid AND
       mdl_user_enrolments.enrolid = mdl_enrol.id AND
       mdl_enrol.courseid = mdl_course.id and mdl_course.id=?";
-    
+
 
     return $DB->get_records_sql($sql, array($id));
 }
@@ -412,8 +412,8 @@ function certificateuv_get_teachers_course($id_course) {
         public.mdl_role_assignments.roleid =3;");
         $teachers=array();
         foreach ($result as $key => $obj) {
-        $teachers[$obj->id] = $obj->firstname." ".$obj->lastname;
-    }
+            $teachers[$obj->id] = $obj->firstname." ".$obj->lastname;
+        }
 
     return $teachers;
 
@@ -425,11 +425,11 @@ function certificateuv_get_teachers_course($id_course) {
 */
 function certificateuv_get_permission_user($userid,$certificateid){
     global $DB;
-    
+
     $sql="select * from {certificateuv_user_perm} where userid=? and certificateid=?";
-    
+
     $result = $DB->get_record_sql($sql, array($userid,$certificateid));
-    
+
     if($result){
         return true;
     }
@@ -446,12 +446,12 @@ function certificateuv_change_user_permission($userid,$certificateid,$option){
     global $DB;
 
     if ($option == "delete") {
-    
+
         $DB->delete_records('certificateuv_user_perm', array("userid"=>$userid, "certificateid"=> $certificateid));
 
     }
     elseif($option == "insert"){
-        
+
         $record = new stdClass();
         $record->userid = $userid;
         $record->certificateid = $certificateid;
@@ -466,9 +466,9 @@ function certificateuv_course_permission($courseid){
     global $DB;
 
     $sql="select * from {certificateuv_course_perm} where courseid=?";
-    
+
     $result = $DB->get_record_sql($sql, array($courseid));
- 
+
     if ($result) {
         return true;
     }
@@ -486,16 +486,16 @@ function certificateuv_get_type_template($courseid){
     global $DB;
 
     $sql="select template_certificate from {certificateuv_course_perm} where courseid=?";
-    
+
     $result = $DB->get_record_sql($sql, array($courseid));
-    
-    
+
+
     if ($result) {
         return $result->template_certificate;
     }
     else{
         return "Dintev";
-    }   
+    }
 
 }
 
@@ -506,16 +506,16 @@ function certificateuv_get_qrcode($userid,$certificateid){
     global $DB;
 
     $sql="select code from {certificateuv_issues} where userid=? and certificateid=?";
-    
+
     $result = $DB->get_record_sql($sql, array($userid,$certificateid));
-    
-    
+
+
     if ($result) {
         return $result->code;
     }
     else{
         return false;
-    }   
+    }
 
 }
 
@@ -523,16 +523,15 @@ function certificateuv_get_username_by_id($userid){
     global $DB;
 
     $sql="select username from {user} where id=?";
-    
+
     $result = $DB->get_record_sql($sql, array($userid));
-    
-    
+
+
     if ($result) {
         return $result->username;
     }
     else{
         return false;
-    }   
+    }
 
 }
-

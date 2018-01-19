@@ -1191,6 +1191,7 @@ function certificateuv_print_image($pdf, $certificate, $type, $x, $y, $w, $h) {
                 break;
             default :
                 if (file_exists($path)) {
+                    //echo $path;die;
                     $pdf->Image($path, $x, $y, $w, $h);
                 }
                 if (file_exists($uploadpath)) {

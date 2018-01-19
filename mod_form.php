@@ -77,7 +77,7 @@ class mod_certificateuv_mod_form extends moodleform_mod {
 
             $mform->addElement('hidden', 'borderstyle', get_string('borderstyle', 'certificateuv'));
             $mform->setType('borderstyle', PARAM_TEXT);
-            $mform->setDefault('borderstyle', 'dintev.png');
+            $mform->setDefault('borderstyle', 'dintev.jpg');
 
             $mform->addElement('hidden', 'printsignature', get_string('printsignature', 'certificateuv'));
             $mform->setType('printsignature', PARAM_TEXT);
