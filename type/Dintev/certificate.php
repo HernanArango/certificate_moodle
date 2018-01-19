@@ -133,5 +133,5 @@ certificateuv_print_text($pdf, 200, 180, 'L', $fontsans, '', 10, " Gloria Isabel
 
 //$pdf->Image('http://chart.googleapis.com/chart?chs=150x150&cht=qr&chl='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
 
-$pdf->Image('http://127.0.0.1/moodle/mod/certificateuv/qr.php?text='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
+$pdf->Image($CFG->wwwroot.'/mod/certificateuv/qr.php?text='.certificateuv_get_qrcode($USER->id,$certificate->id),140,170,20);
 
