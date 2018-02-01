@@ -37,7 +37,7 @@ class mod_certificateuv_mod_form extends moodleform_mod {
         global $CFG;
         global $DB;
         
-
+        
         $mform =& $this->_form;
 
          $course = $this->get_course();

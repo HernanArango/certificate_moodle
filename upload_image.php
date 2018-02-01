@@ -24,31 +24,31 @@
  */
 
 require('../../config.php');
-require_once($CFG->dirroot.'/mod/certificate/locallib.php');
-require_once($CFG->dirroot.'/mod/certificate/upload_image_form.php');
+require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
+require_once($CFG->dirroot.'/mod/certificateuv/upload_image_form.php');
 
 require_login();
 
 $context = context_system::instance();
 require_capability('moodle/site:config', $context);
 
-$struploadimage = get_string('uploadimage', 'certificate');
+$struploadimage = get_string('uploadimage', 'certificateuv');
 
 $PAGE->set_url('/admin/settings.php', array('section' => 'modsettingcertificate'));
-$PAGE->set_pagetype('admin-setting-modsettingcertificate');
+$PAGE->set_pagetype('admin-setting-modsettingcertificateuv');
 $PAGE->set_pagelayout('admin');
 $PAGE->set_context($context);
 $PAGE->set_title($struploadimage);
 $PAGE->set_heading($SITE->fullname);
 $PAGE->navbar->add($struploadimage);
 
-$upload_form = new mod_certificate_upload_image_form();
+$upload_form = new mod_certificateuv_upload_image_form();
 
 if ($upload_form->is_cancelled()) {
-    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificate'));
+    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificateuv'));
 } else if ($data = $upload_form->get_data()) {
     // Ensure the directory for storing is created
-    $uploaddir = "mod/certificate/pix/$data->imagetype";
+    $uploaddir = "mod/certificateuv/pix/$data->imagetype";
     $filename = $upload_form->get_new_filename('certificateimage');
     make_upload_directory($uploaddir);
     $destination = $CFG->dataroot . '/' . $uploaddir . '/' . $filename;
@@ -56,7 +56,7 @@ if ($upload_form->is_cancelled()) {
         throw new coding_exception('File upload failed');
     }
 
-    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificate'), get_string('changessaved'));
+    redirect(new moodle_url('/admin/settings.php?section=modsettingcertificateuv'), get_string('changessaved'));
 }
 
 echo $OUTPUT->header();

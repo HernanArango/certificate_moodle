@@ -119,13 +119,13 @@ certificateuv_print_text($pdf, $x, $y + 125, 'C', $fontsans, '', 12,"Santiago de
 certificateuv_print_text($pdf, 5, 200, 'L', $fontsans, '', 10, format_string($certificate->nameteacher));
 
 //Load image and name teacher/tutor
-$path_tutor="$CFG->dirroot/mod/certificateuv/pix/signatures/".certificateuv_get_username_by_id($certificate->idteacher).".png";
+$path_tutor="$CFG->dataroot/mod/certificateuv/pix/signatures/".certificateuv_get_username_by_id($certificate->idteacher).".png";
 $pdf->Image($path_tutor,$sigx,$sigy-5,50);
 certificateuv_print_text($pdf, 50, 180, 'L', $fontsans, '', 10, certificateuv_get_teacher_signature(format_string($certificate->idteacher))."<br>Tutor");
 
 //Load image and name Director
 //Firma Director
-$path_director="$CFG->dirroot/mod/certificateuv/pix/signatures/directora.png";
+$path_director="$CFG->dataroot/mod/certificateuv/pix/signatures/directora.png";
 $pdf->Image($path_director,200,$sigy-5,50);
 certificateuv_print_text($pdf, 200, 180, 'L', $fontsans, '', 10, " Gloria Isabel Toro <br>Directora -DINTEV-");
 
