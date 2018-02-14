@@ -16,20 +16,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Define all the backup steps that will be used by the backup_certificate_activity_task
+ * Define all the backup steps that will be used by the backup_certificateuv_activity_task
  */
 
 /**
  * Define the complete certificate structure for backup, with file and id annotations
  */
-class backup_certificate_activity_structure_step extends backup_activity_structure_step {
+class backup_certificateuv_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
 
@@ -37,7 +37,7 @@ class backup_certificate_activity_structure_step extends backup_activity_structu
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated
-        $certificate = new backup_nested_element('certificate', array('id'), array(
+        $certificate = new backup_nested_element('certificateuv', array('id'), array(
             'name', 'intro', 'introformat', 'emailteachers', 'emailothers',
             'savecert', 'reportcert', 'delivery', 'certificatetype', 'orientation',
             'borderstyle', 'bordercolor', 'printwmark', 'printdate', 'datefmt', 'printnumber',
@@ -54,19 +54,19 @@ class backup_certificate_activity_structure_step extends backup_activity_structu
         $issues->add_child($issue);
 
         // Define sources
-        $certificate->set_source_table('certificate', array('id' => backup::VAR_ACTIVITYID));
+        $certificate->set_source_table('certificateuv', array('id' => backup::VAR_ACTIVITYID));
 
         // All the rest of elements only happen if we are including user info
         if ($userinfo) {
-            $issue->set_source_table('certificate_issues', array('certificateid' => backup::VAR_PARENTID));
+            $issue->set_source_table('certificateuv_issues', array('certificateid' => backup::VAR_PARENTID));
         }
 
         // Annotate the user id's where required.
         $issue->annotate_ids('user', 'userid');
 
         // Define file annotations
-        $certificate->annotate_files('mod_certificate', 'intro', null); // This file area hasn't itemid
-        $issue->annotate_files('mod_certificate', 'issue', 'id');
+        $certificate->annotate_files('mod_certificateuv', 'intro', null); // This file area hasn't itemid
+        $issue->annotate_files('mod_certificateuv', 'issue', 'id');
 
         // Return the root element (certificate), wrapped into standard activity structure
         return $this->prepare_activity_structure($certificate);

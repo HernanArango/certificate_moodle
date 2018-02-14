@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_certificate
+ * @package    mod_certificateuv
  * @subpackage backup-moodle2
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,13 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/certificate/backup/moodle2/restore_certificate_stepslib.php'); // Because it exists (must)
+require_once($CFG->dirroot . '/mod/certificateuv/backup/moodle2/restore_certificateuv_stepslib.php'); // Because it exists (must)
 
 /**
  * certificate restore task that provides all the settings and steps to perform one
  * complete restore of the activity
  */
-class restore_certificate_activity_task extends restore_activity_task {
+class restore_certificateuv_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -44,7 +44,7 @@ class restore_certificate_activity_task extends restore_activity_task {
      */
     protected function define_my_steps() {
         // Certificate only has one structure step
-        $this->add_step(new restore_certificate_activity_structure_step('certificate_structure', 'certificate.xml'));
+        $this->add_step(new restore_certificateuv_activity_structure_step('certificateuv_structure', 'certificate.xml'));
     }
 
     /**
@@ -54,7 +54,7 @@ class restore_certificate_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('certificate', array('intro'), 'certificate');
+        $contents[] = new restore_decode_content('certificateuv', array('intro'), 'certificateuv');
 
         return $contents;
     }
@@ -66,8 +66,8 @@ class restore_certificate_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('CERTIFICATEVIEWBYID', '/mod/certificate/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('CERTIFICATEINDEX', '/mod/certificate/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('CERTIFICATEVIEWBYID', '/mod/certificateuv/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('CERTIFICATEINDEX', '/mod/certificateuv/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -82,11 +82,11 @@ class restore_certificate_activity_task extends restore_activity_task {
     static public function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('certificate', 'add', 'view.php?id={course_module}', '{certificate}');
-        $rules[] = new restore_log_rule('certificate', 'update', 'view.php?id={course_module}', '{certificate}');
-        $rules[] = new restore_log_rule('certificate', 'view', 'view.php?id={course_module}', '{certificate}');
-        $rules[] = new restore_log_rule('certificate', 'received', 'report.php?a={certificate}', '{certificate}');
-        $rules[] = new restore_log_rule('certificate', 'view report', 'report.php?id={certificate}', '{certificate}');
+        $rules[] = new restore_log_rule('certificateuv', 'add', 'view.php?id={course_module}', '{certificateuv}');
+        $rules[] = new restore_log_rule('certificateuv', 'update', 'view.php?id={course_module}', '{certificateuv}');
+        $rules[] = new restore_log_rule('certificateuv', 'view', 'view.php?id={course_module}', '{certificateuv}');
+        $rules[] = new restore_log_rule('certificateuv', 'received', 'report.php?a={certificateuv}', '{certificateuv}');
+        $rules[] = new restore_log_rule('certificateuv', 'view report', 'report.php?id={certificateuv}', '{certificateuv}');
 
         return $rules;
     }
@@ -105,7 +105,7 @@ class restore_certificate_activity_task extends restore_activity_task {
         $rules = array();
 
         // Fix old wrong uses (missing extension)
-        $rules[] = new restore_log_rule('certificate', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('certificateuv', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }
@@ -120,7 +120,7 @@ class restore_certificate_activity_task extends restore_activity_task {
 
         // Get the new module
         $sql = "SELECT c.*
-                FROM {certificate} c
+                FROM {certificateuv} c
                 INNER JOIN {course_modules} cm
                 ON c.id = cm.instance
                 WHERE cm.id = :cmid";
@@ -141,7 +141,7 @@ class restore_certificate_activity_task extends restore_activity_task {
             }
             if ($update) {
                 // Update the certificate
-                $DB->update_record('certificate', $certificate);
+                $DB->update_record('certificateuv', $certificate);
             }
         }
     }

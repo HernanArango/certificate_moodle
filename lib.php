@@ -80,7 +80,7 @@ function certificateuv_delete_instance($id) {
     }
 
     $result = true;
-    $DB->delete_records('certificateuv_issues', array('certificateuvid' => $id));
+    $DB->delete_records('certificateuv_issues', array('certificateid' => $id));
     if (!$DB->delete_records('certificateuv', array('id' => $id))) {
         $result = false;
     }
@@ -126,7 +126,7 @@ function certificateuv_reset_userdata($data) {
             }
         }
 
-        $DB->delete_records_select('certificateuv_issues', "certificateuvid IN ($sql)", $params);
+        $DB->delete_records_select('certificateuv_issues', "certificateid IN ($sql)", $params);
         $status[] = array('component' => $componentstr, 'item' => get_string('removecert', 'certificateuv'), 'error' => false);
     }
     // Updating dates - shift may be negative too
@@ -177,7 +177,7 @@ function certificateuv_user_outline($course, $user, $mod, $certificate) {
     global $DB;
 
     $result = new stdClass;
-    if ($issue = $DB->get_record('certificateuv_issues', array('certificateuvid' => $certificate->id, 'userid' => $user->id))) {
+    if ($issue = $DB->get_record('certificateuv_issues', array('certificateid' => $certificate->id, 'userid' => $user->id))) {
         $result->info = get_string('issued', 'certificateuv');
         $result->time = $issue->timecreated;
     } else {
@@ -201,7 +201,7 @@ function certificateuv_user_complete($course, $user, $mod, $certificate) {
     global $DB, $OUTPUT, $CFG;
     require_once($CFG->dirroot.'/mod/certificateuv/locallib.php');
 
-    if ($issue = $DB->get_record('certificateuv_issues', array('certificateuvid' => $certificate->id, 'userid' => $user->id))) {
+    if ($issue = $DB->get_record('certificateuv_issues', array('certificateid' => $certificate->id, 'userid' => $user->id))) {
         echo $OUTPUT->box_start();
         echo get_string('issued', 'certificateuv') . ": ";
         echo userdate($issue->timecreated);

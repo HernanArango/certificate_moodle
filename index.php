@@ -102,7 +102,7 @@ foreach ($certificates as $certificate) {
     }
 
     // Get the latest certificate issue
-    if ($certrecord = $DB->get_record('certificateuv_issues', array('userid' => $USER->id, 'certificateuvid' => $certificate->id))) {
+    if ($certrecord = $DB->get_record('certificateuv_issues', array('userid' => $USER->id, 'certificateid' => $certificate->id))) {
         $issued = userdate($certrecord->timecreated);
     } else {
         $issued = get_string('notreceived', 'certificateuv');
